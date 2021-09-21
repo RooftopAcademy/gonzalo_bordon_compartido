@@ -1,15 +1,14 @@
 const ui = new UI();
 
-window.onload = () => {
+window.onload = async () => {
+    const products = await getPosts();
     for (let index = 0; index < 10; index++) {
         ui.appendOnProducts(
             new Product(
                 "img/noprew-index.png",
-                "Medicamentos Varios",
-                `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero placeat ut veritatis numquam
-                beatae repudiandae quo? Eum blanditiis minima illo assumenda, impedit doloribus dolorum aliquid
-                quo adipisci necessitatibus! Ex, recusandae.`,
-                15000,
+                products[index].title,
+                products[index].body,
+                products[index].body.length * 20,
                 {
                     "Caraterística 1": "Especificación 1",
                     "Caraterística 2": "Especificación 2",
