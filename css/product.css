@@ -16,6 +16,10 @@
     padding-inline: 2em;
 }
 
+.product-info > h2 {
+    text-transform: capitalize;
+}
+
 .productSpecs {
     display: flex;
     padding-block: 5px;
