@@ -1,0 +1,45 @@
+.cartTitle {
+    margin-top: 50px;
+    color: rgba(92,168,103,1);
+}
+
+.cartCloseButtonContainer {
+    display: flex;
+    margin: 20px 20px 0 0;
+    justify-content: end;
+}
+
+.cartCloseButton {
+    display: inline;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: inherit;
+    background-color: rgba(92,168,103,1);
+    cursor: pointer;
+}
+
+.tableContainer {
+    width: 100%;
+    padding: 50px;
+}
+
+table {
+    background-color: black;
+    color: black;
+    width: 100%;
+}
+
+thead tr th, tfoot tr th {
+    border: 1px solid black;
+    background-color: white;
+}
+
+tbody {
+    background-color: white;
+}
+
+th, td {
+    padding: 5px 10px;
+}

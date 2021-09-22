@@ -20,6 +20,7 @@ window.onload = async () => {
                     "Caraterística 5": "Especificación 5"
                 }
             )
-        )
+        );
+        listenToShopButtons();
     }
 }
