@@ -40,22 +40,28 @@ class UI {
     appendOnCart(products) {
         let innerHTML = "";
         let total = 0;
-    
-        for (const key in products) {
-            innerHTML += /* html */ `
-                <tr>
-                    <td class="text-center"></td>
-                    <td>${ key }</td>
-                    <td class="text-center">${ products[key].units }</td>
-                    <td class="text-center">$${ products[key].price }</td>
-                    <td class="text-center">$${ products[key].total }</td>
-                </tr>
-            `;
-    
-            total += products[key].total;
+
+        if (Object.keys(products).length === "0") {
+            for (const key in products) {
+                innerHTML += /* html */ `
+                    <tr>
+                        <td class="text-center adminTD"><div class="reduceOneButton">-1</div><div class="increaseOneButton">+1</div></td>
+                        <td class="conceptTable">${ key }</td>
+                        <td class="text-center">${ products[key].units }</td>
+                        <td class="text-center">$${ products[key].price }</td>
+                        <td class="text-center">$${ products[key].total }</td>
+                    </tr>
+                `;
+        
+                total += products[key].total;
+            }
+        
+            document.getElementById("tBody").innerHTML = innerHTML;
+            document.getElementById("total").innerHTML = "$" + total;
+        } else {
+            console.log("Xd")
+            document.getElementById("cartErrorMessage").innerHTML = "No hay ningún producto añadido al carrito";
         }
     
-        document.getElementById("tBody").innerHTML = innerHTML;
-        document.getElementById("total").innerHTML = "$" + total;
     }
 }

@@ -24,9 +24,26 @@ class Cart {
     }
 
     removeFromCart(concept) {
-        delete this._jsonCart[concept]
+        if (this._jsonCart[concept].units === 1) delete this._jsonCart[concept];
+        else {
+            this._jsonCart[concept].units -= 1
+            this._jsonCart[concept].total -= this._jsonCart[concept].price
+        }
 
         sessionStorage.setItem("cart", JSON.stringify(this._jsonCart));
+    }
+
+    lastMomentAppendToCart(concept) { 
+        this._jsonCart[concept].units += 1; 
+        this._jsonCart[concept].total += this._jsonCart[concept].price
+
+        sessionStorage.setItem("cart", JSON.stringify(this._jsonCart));
+    }
+
+    close() {
+        sessionStorage.removeItem("cart");
+        this._jsonCart = {};
+        alert("Imagina que la compra finalizó");
     }
 
     getProducts() { return this._jsonCart }
