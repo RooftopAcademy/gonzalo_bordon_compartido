@@ -28,6 +28,10 @@ footer {
     text-align: center;
 }
 
+.text-center {
+    text-align: center;
+}
+
 #nav-container.active, #nav-container.active-lg, .nav-container-item, .nav-container {
     display: block;
 }
