@@ -28,6 +28,10 @@ footer {
     text-align: center;
 }
 
+.text-center {
+    text-align: center;
+}
+
 #nav-container.active, #nav-container.active-lg, .nav-container-item, .nav-container {
     display: block;
 }
@@ -95,7 +99,7 @@ footer {
 }
 
 .shopButton-products {
-    margin: 0 auto 20px auto;
+    margin: auto auto 20px auto;
 }
 
 .search-button {

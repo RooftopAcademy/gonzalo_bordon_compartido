@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/products.css">
+    <link rel="stylesheet" href="css/cart.css">
     <title>Web</title>
 </head>
-
 <body>
     <nav class="nav">
         <button class="openNav-button nav-button">&#9776;</button>
         <div class="nav-top">
             <a href="index.html">Home</a>
             <a href="products.html">Shop</a>
-            <input placeholder="Buscar..." class="nav-container-item" type="search">
-            <a href="cart.html" class="cartButton">&#128722;</a>
+            <input placeholder="Buscar..." class="nav-container-item" type="search"><div class="search-button">&#128270;</div>
         </div>
         <a href="cart.html" class="cartButton">&#128722;</a>
     </nav>
@@ -36,27 +33,47 @@
             <a class="nav-container-item" href="index.html#contact">Contáctanos</a>
         </div>
         <section class="container">
-            <h1>Productos</h1>
-            <div class="products">
+            <div class="cartTitle">
+                <h1>Bienvenido al Carrito</h1>
             </div>
-            <div class="paginator">
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
+            <div>
+                <h3 class="cartErrorMessage" id="cartErrorMessage">
+                    
+                </h3>
+            </div>
+            <div class="tableContainer">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>A</th>
+                            <th>Concepto</th>
+                            <th>Unidades</th>
+                            <th>Precio Unitario</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tBody"></tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="4">Total:</th>
+                            <th id="total"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="cartCloseButtonContainer">
+                    <button class="cartCloseButton" onclick="closeCart()">Finalizar Compra</button>
+                </div>
             </div>
         </section>
     </main>
     <footer>
-        All Rights Reserved. Gonzalo Bordón 2021
+        All Rights Reserved. Gonzalo Bordón 2021 
     </footer>
     <script src="js/api.js"></script>
-
     <script src="js/class/Cart.js"></script>
     <script src="js/class/UI.js"></script>
-    <script src="js/class/Product.js"></script>
 
     <script src="js/script.js"></script>
-    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
 </body>
-
 </html>

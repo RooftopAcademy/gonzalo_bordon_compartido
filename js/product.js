@@ -1,21 +1,27 @@
 const ui = new UI();
 
-window.onload = () => {
-    ui.appendOnProduct(
-        new Product(
-            "img/noprew-index.png",
-            "Medicamentos Varios",
-            `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero placeat ut veritatis numquam
-            beatae repudiandae quo? Eum blanditiis minima illo assumenda, impedit doloribus dolorum aliquid
-            quo adipisci necessitatibus! Ex, recusandae.`,
-            15000,
-            {
-                "Caraterística 1": "Especificación 1",
-                "Caraterística 2": "Especificación 2",
-                "Caraterística 3": "Especificación 3",
-                "Caraterística 4": "Especificación 4",
-                "Caraterística 5": "Especificación 5"
-            }
-        )
-    )
+window.onload = async () => {
+    const cod = window.location.search.replace("?cod=", "");
+    const product = await getPosts(cod);
+    if (product.error) {
+        if ( confirm("Este Producto no existe") ) window.history.back();
+    } else {
+        ui.appendOnProduct(
+            new Product(
+                "img/noprew-index.png",
+                product.title,
+                product.body,
+                product.body.length * 20,
+                {
+                    "Caraterística 1": "Especificación 1",
+                    "Caraterística 2": "Especificación 2",
+                    "Caraterística 3": "Especificación 3",
+                    "Caraterística 4": "Especificación 4",
+                    "Caraterística 5": "Especificación 5"
+                },
+                product.id
+            )
+        );
+        listenToShopButtons();
+    }
 }
