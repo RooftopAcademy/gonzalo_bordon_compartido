@@ -9,11 +9,11 @@ Object.values(nav_buttons).forEach(nav_button => {
 });
 
 function listenToShopButtons() {
-    const cart = new Cart();
     const shopButtons = document.getElementsByClassName("shopButton");
-
+    
     Object.values(shopButtons).forEach(shopButton => {
         shopButton.addEventListener("click", (e) => {
+            const cart = new Cart();
             const id = e.target.parentElement.id.replace("product_cod-", "");
             cart.addToCart(id);
         })

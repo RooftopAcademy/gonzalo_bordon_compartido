@@ -15,8 +15,10 @@ window.onload = async () => {
                     "Caraterística 3": "Especificación 3",
                     "Caraterística 4": "Especificación 4",
                     "Caraterística 5": "Especificación 5"
-                }
+                },
+                products[index].id
             )
         )
     }
+    listenToShopButtons();
 }
