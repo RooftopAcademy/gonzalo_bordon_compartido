@@ -27,7 +27,6 @@ window.onload = async () /* : Void */ => {
             )
         )
     }
-
     listenToShopButtons();
     document.getElementById("paginator").innerHTML = ui.appendOnPaginator(page);
 }

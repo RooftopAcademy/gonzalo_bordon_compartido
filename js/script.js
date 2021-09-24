@@ -1,4 +1,4 @@
-updateQuantityProducts(new Cart().getQuantityProducts());
+window.onload = window.onpagehide = window.onpageshow = () => { updateQuantityProducts((new Cart()).quantityProducts) };
 
 const nav_buttons /* : HTMLElement */ = document.getElementsByClassName("openNav-button");
 const nav_container /* : HTMLElement */ = document.getElementById("nav-container");
@@ -18,7 +18,7 @@ function listenToShopButtons() /* : Void */ {
             const cart /* : Cart */ = new Cart();
             const id /* : string */ = e.target.parentElement.id.replace("product_cod-", "");
             await cart.addToCart(id);
-            updateQuantityProducts(cart.getQuantityProducts());
+            updateQuantityProducts(cart.quantityProducts);
         })
     });
 }
