@@ -146,6 +146,19 @@ footer {
     width: 100%;
 }
 
+.quantityProducts {
+    display: flex;
+    position: absolute;
+    color: white;
+    top: 2px;
+    right: 12px;
+    background-color: red;
+    padding: 2px 4px;
+    border-radius: 100%;
+    font-size: 14px;
+    font-weight: bold;
+}
+
 
 /* @media (min-width: 576px) { 
 }

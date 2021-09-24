@@ -1,13 +1,29 @@
+/* 
+type apiProduct = { 
+    title: string, 
+    body: string, 
+    id: number, 
+    userId: number,
+    error?: boolean
+}
+type responseToCart = { 
+    body?: string, 
+    extra?: string, 
+    error?: string
+}
+
+*/
+
 class UI {
-    appendOnProduct(product) {
-        let productSpecs = "";
+    appendOnProduct(product /* : apiProduct */ ) /* : string */ {
+        let productSpecs /* string */ = "";
         for (const key in product.caracts) {
             productSpecs += /* html */ `
                 <div class="productSpecs"><span class="product-spec">${key}: </span> ${product.caracts[key]}</div>
             `
         }
 
-        document.getElementsByClassName("product")[0].innerHTML = /* html */ `
+        return /* html */ `
             <img src="${product.image}">
             <div class="product-info" id="product_cod-${product.cod}">
                 <h2>${product.title}</h2>
@@ -21,9 +37,8 @@ class UI {
         `;
     }
 
-    appendOnProducts(product) {
-        document.getElementsByClassName("products")[0].innerHTML +=
-        /* html */ `
+    appendOnProducts(product /* : apiProduct */ )  /* : string */ {
+        return /* html */ `
         <div class="product-card" id="product_cod-${product.cod}">
             <a class="product-image" href="product.html?cod=${product.cod}">
                 <img src="${product.image}">
@@ -37,11 +52,12 @@ class UI {
         `;
     }
 
-    appendOnCart(products) {
-        let innerHTML = "";
-        let total = 0;
+    appendOnCart(products  /* : apiProduct | {} */ )  /* : responseToCart */  {
+        const response /* responseToCart */ = {}
+        let innerHTML  /* : string */ = "";
+        let total  /* : number */ = 0;
 
-        if (Object.keys(products).length === "0") {
+        if (Object.keys(products).length !== "0") {
             for (const key in products) {
                 innerHTML += /* html */ `
                     <tr>
@@ -55,13 +71,39 @@ class UI {
         
                 total += products[key].total;
             }
-        
-            document.getElementById("tBody").innerHTML = innerHTML;
-            document.getElementById("total").innerHTML = "$" + total;
-        } else {
-            console.log("Xd")
-            document.getElementById("cartErrorMessage").innerHTML = "No hay ningún producto añadido al carrito";
+            response.body = innerHTML;
+            response.extra = "$" + total;
+        } else response.error = "No hay ningún producto añadido al carrito";
+
+        return response
+    }
+
+    appendOnPaginator(page /* : number */ )  /* : string */  {
+        let innerHTML = "";
+        let left = page - 1;
+        let center = page;
+        let right = page + 1;
+
+        if (page >= 3) innerHTML += `<a href="products.html?page=1"><<</a>`;
+
+        if (page === 1) {
+            ++left;
+            ++center;
+            ++right;
+        } else if (page === 10) {
+            --left;
+            --center;
+            --right;
         }
-    
+
+        innerHTML += `
+            <a class="${ (left === page) ? "active" : "" }" href="products.html?page=${ left }">${ left }</a>
+            <a class="${ (center === page) ? "active" : "" }" href="products.html?page=${ center }">${ center }</a>
+            <a class="${ (right === page) ? "active" : "" }" href="products.html?page=${ right }">${ right }</a>
+        `;
+
+        if (page <= 8) innerHTML += `<a href="products.html?page=10">>></a>`;
+
+        return innerHTML
     }
 }

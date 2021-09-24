@@ -68,6 +68,10 @@ section h1 {
     border-radius: 5px;
 }
 
+.paginator a.active {
+    background-color: green;
+}
+
 @media (max-width: 920px) {
     .product-card {
       flex: 1 21%;

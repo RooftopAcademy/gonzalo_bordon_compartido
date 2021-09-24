@@ -17,9 +17,12 @@
             <a href="index.html">Home</a>
             <a href="products.html">Shop</a>
             <input placeholder="Buscar..." class="nav-container-item" type="search">
-            <a href="cart.html" class="cartButton">&#128722;</a>
+            <div class="search-button">🔎</div>
         </div>
-        <a href="cart.html" class="cartButton">&#128722;</a>
+        <a href="cart.html" class="cartButton">
+            &#128722;
+            <div class="quantityProducts" id="quantityProducts">0</div>
+        </a>
     </nav>
     <main class="main">
         <div id="nav-container" class="">
@@ -39,11 +42,7 @@
             <h1>Productos</h1>
             <div class="products">
             </div>
-            <div class="paginator">
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-            </div>
+            <div class="paginator" id="paginator"></div>
         </section>
     </main>
     <footer>

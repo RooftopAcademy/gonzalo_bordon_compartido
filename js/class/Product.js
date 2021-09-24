@@ -1,5 +1,11 @@
 class Product {
-    constructor(image, title, desc, price, caracts, cod) {
+    constructor(image /* : string */ , 
+                title /* : string */ , 
+                desc /* : string */ , 
+                price /* : number */ , 
+                caracts /* : object */ , 
+                cod /* : string | number */ 
+    ) {
         this.image = image;
         this.title = title;
         this.desc = desc;

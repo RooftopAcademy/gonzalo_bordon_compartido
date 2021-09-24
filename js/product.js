@@ -1,12 +1,22 @@
+/* 
+type apiProduct = { 
+    title: string, 
+    body: string, 
+    id: number, 
+    userId: number
+    error?: boolean
+}
+*/
+
 const ui = new UI();
 
-window.onload = async () => {
-    const cod = window.location.search.replace("?cod=", "");
-    const product = await getPosts(cod);
+window.onload = async () /* : Void */ => {
+    const cod /* : string */ = window.location.search.replace("?cod=", "");
+    const product /* : apiProduct */ = await getPosts(cod);
     if (product.error) {
         if ( confirm("Este Producto no existe") ) window.history.back();
     } else {
-        ui.appendOnProduct(
+        document.getElementsByClassName("product")[0].innerHTML = ui.appendOnProduct(
             new Product(
                 "img/noprew-index.png",
                 product.title,
