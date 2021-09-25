@@ -6,6 +6,14 @@ interface jsonProduct {
     price: number
 }
 
+interface historyData {
+    htmlFileName: string,
+    page: string | null,
+    cod: string | null,
+    oldData: historyData | null,
+    newData: historyData | null,
+}
+
 interface cartProducts {
     [index : string] : jsonProduct
 }
@@ -151,11 +159,11 @@ class UI {
     static appendOnProducts(product : Product ) : string {
         return /* html */ `
         <div class="product-card" id="product_cod-${product.cod}">
-            <a class="jsSAP_a product-image" href="product.html?cod=${product.cod}">
+            <a class="js-SAP_a product-image" data-html-file-name="product.html" data-cod="${product.cod}">
                 <img src="${product.image}">
             </a>
             <div class="product-info">
-                <h5><a href="product.html?cod=${product.cod}">${product.title}</a></h5>
+                <h5><a class="js-SAP_a" data-html-file-name="product.html" data-cod="${product.cod}">${product.title}</a></h5>
                 <h6>$${product.price}</h6>
             </div>
             <a class="shopButton shopButton-products">Comprar</a>
@@ -195,7 +203,7 @@ class UI {
         let center = page;
         let right = page + 1;
 
-        if (page >= 3) innerHTML += `<a href="products.html?page=1"><<</a>`;
+        if (page >= 3) innerHTML += `<a class="js-SAP_a " data-html-file-name="products.html" data-page="1"><<</a>`;
 
         if (page === 1) {
             ++left;
@@ -208,12 +216,12 @@ class UI {
         }
 
         innerHTML += `
-            <a class="${ (left === page) ? "active" : "" }" href="products.html?page=${ left }">${ left }</a>
-            <a class="${ (center === page) ? "active" : "" }" href="products.html?page=${ center }">${ center }</a>
-            <a class="${ (right === page) ? "active" : "" }" href="products.html?page=${ right }">${ right }</a>
+            <a class="js-SAP_a ${ (left === page) ? "active" : "" }" data-html-file-name="products.html" data-page="${ left }">${ left }</a>
+            <a class="js-SAP_a ${ (center === page) ? "active" : "" }" data-html-file-name="products.html" data-page="${ center }">${ center }</a>
+            <a class="js-SAP_a ${ (right === page) ? "active" : "" }" data-html-file-name="products.html" data-page="${ right }">${ right }</a>
         `;
 
-        if (page <= 8) innerHTML += `<a href="products.html?page=10">>></a>`;
+        if (page <= 8) innerHTML += `<a data-html-file-name="products.html" data-page="10">>></a>`;
 
         return innerHTML
     }
@@ -226,10 +234,10 @@ let cart : Cart;
 const pagesHTML: {
     [index: string] : () => void | string | Promise<string | void>
 } = {
-    "cart": cartFile,
-    "product": productFile,
-    "products": productsFile,
-    "index": indexFile,
+    "cart.html": cartFile,
+    "product.html": productFile,
+    "products.html": productsFile,
+    "index.html": indexFile,
 }
 
 const nav_buttons : HTMLCollectionOf<Element> = document.getElementsByClassName("openNav-button");
@@ -307,7 +315,7 @@ function indexFile() : string {
 }
 
 async function productsFile() : Promise<string | void> {
-    const page : number = Number(window.location.search.replace("?page=", "")) || 1;
+    const page : number = Number(getHistory().page) || 1;
     const products : responseProduct[] | apiError = await getPosts();
     
     if (typeof products !== "string") {
@@ -341,7 +349,7 @@ async function productsFile() : Promise<string | void> {
 }
 
 async function productFile() : Promise<string | void> {
-    const cod : string = window.location.search.replace("?cod=", "");
+    const cod : string = getHistory().cod;
     const product : responseProduct | apiError = await getPost(cod);
     if (typeof product !== "string") {
         return `
@@ -365,7 +373,7 @@ async function productFile() : Promise<string | void> {
             </div>
         `
     } else {
-        if ( confirm("Este Producto no existe") ) window.history.back();
+        if ( confirm("Este Producto no existe") ) goBack();
     }
 }
 
@@ -438,29 +446,103 @@ function closeCart() : void {
     loadTable();
 }
 
-//  EJECUTAR AL INICIO
-window.onload = window.onpagehide = window.onpageshow = window.onpopstate = async () : Promise<void> => { 
-    cart = new Cart();
-    const arrayParsedHREF = window.location.pathname.split("/");
-    const htmlFileName = arrayParsedHREF[arrayParsedHREF.length - 1].replace(".html", "");
+function getHistory() : historyData {
+    let historyData : historyData | null = JSON.parse(sessionStorage.getItem("historyData"));
 
-    const innerHTML : string | void = await pagesHTML[htmlFileName || "index"]();
+    if (historyData === null) {
+        historyData = {
+            htmlFileName: "index.html",
+            page: null,
+            cod: null,
+            oldData: null,
+            newData: null,
+        }
+        sessionStorage.setItem("historyData", JSON.stringify(historyData))
+    }
+
+    return historyData
+}
+
+function goBack() : void {
+    window.history.replaceState(null, "", "index.html");
+    const { htmlFileName, page, cod, oldData, newData } : historyData = getHistory();
+    if (oldData !== null) {
+        sessionStorage.setItem("historyData", JSON.stringify({
+            htmlFileName: oldData.htmlFileName,
+            page: oldData.page,
+            cod: oldData.cod,
+            oldData: oldData.oldData,
+            newData: {
+                htmlFileName, 
+                page, 
+                cod, 
+                oldData: null,
+                newData: newData || null,
+            },
+        }))
+        loadFile()
+    } else {
+        window.history.back()
+    }
+
+}
+
+function goForward() : void {
+    window.history.pushState(null, "", "index.html");
+    const { htmlFileName, page, cod, oldData, newData } : historyData = getHistory();
+    if (newData !== null) {
+        sessionStorage.setItem("historyData", JSON.stringify({
+            htmlFileName: newData.htmlFileName,
+            page: newData.page,
+            cod: newData.cod,
+            oldData: {
+                htmlFileName, 
+                page, 
+                cod, 
+                oldData: oldData || null,
+                newData: null,
+            },
+            newData: newData.newData,
+        }))
+        loadFile()
+    }
+}
+
+//  EJECUTAR AL INICIO
+window.onload = loadFile;
+window.onpagehide = goBack;
+window.onpageshow = goForward;
+
+async function loadFile() : Promise<void> { 
+    cart = new Cart();
+    const { htmlFileName } = getHistory();
+
+
+    const innerHTML : string | void = await pagesHTML[htmlFileName || "index.html"]();
     if (typeof innerHTML === "string") {
         document.getElementById("app").innerHTML = innerHTML; 
     }
-    if (["products", "product"].indexOf(htmlFileName) !== -1) listenToShopButtons();
-    else if (htmlFileName === "cart") loadTable();
+    if (["products.html", "product.html"].indexOf(htmlFileName) !== -1) listenToShopButtons();
+    else if (htmlFileName === "cart.html") loadTable();
 
     updateQuantityProducts(cart.getQuantityProducts());
 
-
     Array.from(jsSAP_a).forEach((a_button : Element) => {
-        a_button.addEventListener("click", (e) : void => {
-            e.preventDefault();
-            const arrayParsedHREF = window.location.pathname.split("/");
-            arrayParsedHREF[arrayParsedHREF.length - 1] = a_button.getAttribute("href");
-            window.history.pushState(null, "", arrayParsedHREF.join("/"));
-        })
+        if (a_button instanceof HTMLElement) {
+            a_button.addEventListener("click", (e) : void => {
+                e.preventDefault();
+                const currentData = a_button.dataset;
+                sessionStorage.setItem("historyData", JSON.stringify({
+                    htmlFileName: currentData.htmlFileName,
+                    page: currentData.page,
+                    cod: currentData.cod,
+                    oldData: getHistory(),
+                    newData: null,
+                }))
+                window.history.pushState(null, "", "index.html");
+                loadFile()
+            })
+        }
     })
 };
 

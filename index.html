@@ -6,17 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/product.css">
+    <link rel="stylesheet" href="css/products.css">
+    <link rel="stylesheet" href="css/cart.css">
     <title>Web</title>
 </head>
 <body>
     <nav class="nav">
         <button class="openNav-button nav-button">&#9776;</button>
         <div class="nav-top">
-            <a class="js-SAP_a" href="index.html">Home</a>
-            <a class="js-SAP_a" href="products.html">Shop</a>
+            <a class="js-SAP_a" data-html-file-name="index.html">Home</a>
+            <a class="js-SAP_a" data-html-file-name="products.html">Shop</a>
             <input placeholder="Buscar..." class="nav-container-item" type="search"><div class="search-button">&#128270;</div>
         </div>
-        <a href="cart.html" class="js-SAP_a cartButton">
+        <a data-html-file-name="cart.html" class="js-SAP_a cartButton">
             &#128722;
             <div class="quantityProducts" id="quantityProducts">0</div>
         </a>
@@ -28,8 +31,8 @@
                     <button class="openNav-button closeButton">&#10060;</button>
                 </div>
                 <input placeholder="Buscar..." class="nav-container-item" type="search"><div class="search-button">&#128270;</div>
-                <a class="js-SAP_a nav-container-item" href="index.html">Home</a>
-                <a class="js-SAP_a nav-container-item" href="products.html">Shop</a>
+                <a class="js-SAP_a nav-container-item" data-html-file-name="index.html">Home</a>
+                <a class="js-SAP_a nav-container-item" data-html-file-name="products.html">Shop</a>
             </div>
         </div>
         <section class="container" id="app">

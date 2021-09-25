@@ -46,7 +46,7 @@ section h1 {
     padding-left: 10px;
 }
 
-.product-info a {
+.product-info > h5 > a {
     color: inherit;
 }
 

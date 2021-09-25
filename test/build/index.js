@@ -119,7 +119,7 @@ var UI = /** @class */ (function () {
         return /* html */ "\n            <img src=\"" + product.image + "\">\n            <div class=\"product-info\" id=\"product_cod-" + product.cod + "\">\n                <h2>" + product.title + "</h2>\n                <p>" + product.desc + "</p>\n                <div class=\"productSpecs\"><span class=\"product-spec\">Precio: </span>$" + product.price + "</div>\n                <div class=\"container-productSpecs\">\n                    " + productSpecs + "\n                </div>\n                <a class=\"shopButton\">Comprar</a>\n            </div>\n        ";
     };
     UI.appendOnProducts = function (product) {
-        return /* html */ "\n        <div class=\"product-card\" id=\"product_cod-" + product.cod + "\">\n            <a class=\"jsSAP_a product-image\" href=\"product.html?cod=" + product.cod + "\">\n                <img src=\"" + product.image + "\">\n            </a>\n            <div class=\"product-info\">\n                <h5><a href=\"product.html?cod=" + product.cod + "\">" + product.title + "</a></h5>\n                <h6>$" + product.price + "</h6>\n            </div>\n            <a class=\"shopButton shopButton-products\">Comprar</a>\n        </div>\n        ";
+        return /* html */ "\n        <div class=\"product-card\" id=\"product_cod-" + product.cod + "\">\n            <a class=\"js-SAP_a product-image\" data-html-file-name=\"product.html\" data-cod=\"" + product.cod + "\">\n                <img src=\"" + product.image + "\">\n            </a>\n            <div class=\"product-info\">\n                <h5><a class=\"js-SAP_a\" data-html-file-name=\"product.html\" data-cod=\"" + product.cod + "\">" + product.title + "</a></h5>\n                <h6>$" + product.price + "</h6>\n            </div>\n            <a class=\"shopButton shopButton-products\">Comprar</a>\n        </div>\n        ";
     };
     UI.appendOnCart = function (products) {
         var response = {};
@@ -143,7 +143,7 @@ var UI = /** @class */ (function () {
         var center = page;
         var right = page + 1;
         if (page >= 3)
-            innerHTML += "<a href=\"products.html?page=1\"><<</a>";
+            innerHTML += "<a class=\"js-SAP_a \" data-html-file-name=\"products.html\" data-page=\"1\"><<</a>";
         if (page === 1) {
             ++left;
             ++center;
@@ -154,9 +154,9 @@ var UI = /** @class */ (function () {
             --center;
             --right;
         }
-        innerHTML += "\n            <a class=\"" + ((left === page) ? "active" : "") + "\" href=\"products.html?page=" + left + "\">" + left + "</a>\n            <a class=\"" + ((center === page) ? "active" : "") + "\" href=\"products.html?page=" + center + "\">" + center + "</a>\n            <a class=\"" + ((right === page) ? "active" : "") + "\" href=\"products.html?page=" + right + "\">" + right + "</a>\n        ";
+        innerHTML += "\n            <a class=\"js-SAP_a " + ((left === page) ? "active" : "") + "\" data-html-file-name=\"products.html\" data-page=\"" + left + "\">" + left + "</a>\n            <a class=\"js-SAP_a " + ((center === page) ? "active" : "") + "\" data-html-file-name=\"products.html\" data-page=\"" + center + "\">" + center + "</a>\n            <a class=\"js-SAP_a " + ((right === page) ? "active" : "") + "\" data-html-file-name=\"products.html\" data-page=\"" + right + "\">" + right + "</a>\n        ";
         if (page <= 8)
-            innerHTML += "<a href=\"products.html?page=10\">>></a>";
+            innerHTML += "<a data-html-file-name=\"products.html\" data-page=\"10\">>></a>";
         return innerHTML;
     };
     return UI;
@@ -165,10 +165,10 @@ var UI = /** @class */ (function () {
 var API = "https://jsonplaceholder.typicode.com/";
 var cart;
 var pagesHTML = {
-    "cart": cartFile,
-    "product": productFile,
-    "products": productsFile,
-    "index": indexFile,
+    "cart.html": cartFile,
+    "product.html": productFile,
+    "products.html": productsFile,
+    "index.html": indexFile,
 };
 var nav_buttons = document.getElementsByClassName("openNav-button");
 var nav_container = document.getElementById("nav-container");
@@ -243,7 +243,7 @@ function productsFile() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    page = Number(window.location.search.replace("?page=", "")) || 1;
+                    page = Number(getHistory().page) || 1;
                     return [4 /*yield*/, getPosts()];
                 case 1:
                     products = _a.sent();
@@ -270,7 +270,7 @@ function productFile() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    cod = window.location.search.replace("?cod=", "");
+                    cod = getHistory().cod;
                     return [4 /*yield*/, getPost(cod)];
                 case 1:
                     product = _a.sent();
@@ -285,7 +285,7 @@ function productFile() {
                     }
                     else {
                         if (confirm("Este Producto no existe"))
-                            window.history.back();
+                            goBack();
                     }
                     return [2 /*return*/];
             }
@@ -329,38 +329,109 @@ function closeCart() {
     cart.close();
     loadTable();
 }
+function getHistory() {
+    var historyData = JSON.parse(sessionStorage.getItem("historyData"));
+    if (historyData === null) {
+        historyData = {
+            htmlFileName: "index.html",
+            page: null,
+            cod: null,
+            oldData: null,
+            newData: null,
+        };
+        sessionStorage.setItem("historyData", JSON.stringify(historyData));
+    }
+    return historyData;
+}
+function goBack() {
+    window.history.replaceState(null, "", "index.html");
+    var _a = getHistory(), htmlFileName = _a.htmlFileName, page = _a.page, cod = _a.cod, oldData = _a.oldData, newData = _a.newData;
+    if (oldData !== null) {
+        sessionStorage.setItem("historyData", JSON.stringify({
+            htmlFileName: oldData.htmlFileName,
+            page: oldData.page,
+            cod: oldData.cod,
+            oldData: oldData.oldData,
+            newData: {
+                htmlFileName: htmlFileName,
+                page: page,
+                cod: cod,
+                oldData: null,
+                newData: newData || null,
+            },
+        }));
+        loadFile();
+    }
+    else {
+        window.history.back();
+    }
+}
+function goForward() {
+    window.history.pushState(null, "", "index.html");
+    var _a = getHistory(), htmlFileName = _a.htmlFileName, page = _a.page, cod = _a.cod, oldData = _a.oldData, newData = _a.newData;
+    if (newData !== null) {
+        sessionStorage.setItem("historyData", JSON.stringify({
+            htmlFileName: newData.htmlFileName,
+            page: newData.page,
+            cod: newData.cod,
+            oldData: {
+                htmlFileName: htmlFileName,
+                page: page,
+                cod: cod,
+                oldData: oldData || null,
+                newData: null,
+            },
+            newData: newData.newData,
+        }));
+        loadFile();
+    }
+}
 //  EJECUTAR AL INICIO
-window.onload = window.onpagehide = window.onpageshow = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var arrayParsedHREF, htmlFileName, innerHTML;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                cart = new Cart();
-                arrayParsedHREF = window.location.pathname.split("/");
-                htmlFileName = arrayParsedHREF[arrayParsedHREF.length - 1].replace(".html", "");
-                return [4 /*yield*/, pagesHTML[htmlFileName]()];
-            case 1:
-                innerHTML = _a.sent();
-                if (typeof innerHTML === "string") {
-                    document.getElementById("app").innerHTML = innerHTML;
-                }
-                if (["products", "product"].indexOf(htmlFileName) !== -1)
-                    listenToShopButtons();
-                else if (htmlFileName === "cart")
-                    loadTable();
-                updateQuantityProducts(cart.getQuantityProducts());
-                Array.from(jsSAP_a).forEach(function (a_button) {
-                    a_button.addEventListener("click", function (e) {
-                        e.preventDefault();
-                        var arrayParsedHREF = window.location.pathname.split("/");
-                        arrayParsedHREF[arrayParsedHREF.length - 1] = a_button.getAttribute("href");
-                        window.history.pushState(null, "", arrayParsedHREF.join("/"));
+window.onload = loadFile;
+window.onpagehide = goBack;
+window.onpageshow = goForward;
+function loadFile() {
+    return __awaiter(this, void 0, void 0, function () {
+        var htmlFileName, innerHTML;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    cart = new Cart();
+                    htmlFileName = getHistory().htmlFileName;
+                    return [4 /*yield*/, pagesHTML[htmlFileName || "index.html"]()];
+                case 1:
+                    innerHTML = _a.sent();
+                    if (typeof innerHTML === "string") {
+                        document.getElementById("app").innerHTML = innerHTML;
+                    }
+                    if (["products.html", "product.html"].indexOf(htmlFileName) !== -1)
+                        listenToShopButtons();
+                    else if (htmlFileName === "cart.html")
+                        loadTable();
+                    updateQuantityProducts(cart.getQuantityProducts());
+                    Array.from(jsSAP_a).forEach(function (a_button) {
+                        if (a_button instanceof HTMLElement) {
+                            a_button.addEventListener("click", function (e) {
+                                e.preventDefault();
+                                var currentData = a_button.dataset;
+                                sessionStorage.setItem("historyData", JSON.stringify({
+                                    htmlFileName: currentData.htmlFileName,
+                                    page: currentData.page,
+                                    cod: currentData.cod,
+                                    oldData: getHistory(),
+                                    newData: null,
+                                }));
+                                window.history.pushState(null, "", "index.html");
+                                loadFile();
+                            });
+                        }
                     });
-                });
-                return [2 /*return*/];
-        }
+                    return [2 /*return*/];
+            }
+        });
     });
-}); };
+}
+;
 Array.from(nav_buttons).forEach(function (nav_button) {
     nav_button.addEventListener("click", function () {
         if (nav_container.className.search("active") === -1)
