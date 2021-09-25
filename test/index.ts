@@ -230,7 +230,6 @@ const pagesHTML: {
     "product": productFile,
     "products": productsFile,
     "index": indexFile,
-    "": indexFile,
 }
 
 const nav_buttons : HTMLCollectionOf<Element> = document.getElementsByClassName("openNav-button");
@@ -445,7 +444,7 @@ window.onload = window.onpagehide = window.onpageshow = window.onpopstate = asyn
     const arrayParsedHREF = window.location.pathname.split("/");
     const htmlFileName = arrayParsedHREF[arrayParsedHREF.length - 1].replace(".html", "");
 
-    const innerHTML : string | void = await pagesHTML[htmlFileName]();
+    const innerHTML : string | void = await pagesHTML[htmlFileName || "index"]();
     if (typeof innerHTML === "string") {
         document.getElementById("app").innerHTML = innerHTML; 
     }
