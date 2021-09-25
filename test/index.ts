@@ -230,6 +230,7 @@ const pagesHTML: {
     "product": productFile,
     "products": productsFile,
     "index": indexFile,
+    "": indexFile,
 }
 
 const nav_buttons : HTMLCollectionOf<Element> = document.getElementsByClassName("openNav-button");
@@ -463,8 +464,6 @@ window.onload = window.onpagehide = window.onpageshow = window.onpopstate = asyn
         })
     })
 };
-
-
 
 Array.from(nav_buttons).forEach((nav_button : Element) => {
     nav_button.addEventListener("click", () : void => {
