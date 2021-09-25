@@ -229,7 +229,7 @@ const pagesHTML: {
     "cart": cartFile,
     "product": productFile,
     "products": productsFile,
-    "index": () => {}
+    "index": indexFile,
 }
 
 const nav_buttons : HTMLCollectionOf<Element> = document.getElementsByClassName("openNav-button");
@@ -282,7 +282,7 @@ function indexFile() : string {
             <h3>Calidad Garantizada</h3>
             <h2>Nuestros Productos</h2>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo vel, dolorem rem reiciendis cupiditate officia.</p>
-            <a class="shop-btn" href="products.html">Comprar Ahora</a>
+            <a class="js-SAP_a shop-btn" href="products.html">Comprar Ahora</a>
         </article>
         <article class="contact" id="contact">
             <div class="contact-card">
@@ -445,7 +445,6 @@ window.onload = window.onpagehide = window.onpageshow = async () : Promise<void>
     const htmlFileName = arrayParsedHREF[arrayParsedHREF.length - 1].replace(".html", "");
 
     const innerHTML : string | void = await pagesHTML[htmlFileName]();
-
     if (typeof innerHTML === "string") {
         document.getElementById("app").innerHTML = innerHTML; 
     }
