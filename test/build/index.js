@@ -119,7 +119,7 @@ var UI = /** @class */ (function () {
         return /* html */ "\n            <img src=\"" + product.image + "\">\n            <div class=\"product-info\" id=\"product_cod-" + product.cod + "\">\n                <h2>" + product.title + "</h2>\n                <p>" + product.desc + "</p>\n                <div class=\"productSpecs\"><span class=\"product-spec\">Precio: </span>$" + product.price + "</div>\n                <div class=\"container-productSpecs\">\n                    " + productSpecs + "\n                </div>\n                <a class=\"shopButton\">Comprar</a>\n            </div>\n        ";
     };
     UI.appendOnProducts = function (product) {
-        return /* html */ "\n        <div class=\"product-card\" id=\"product_cod-" + product.cod + "\">\n            <a class=\"product-image\" href=\"product.html?cod=" + product.cod + "\">\n                <img src=\"" + product.image + "\">\n            </a>\n            <div class=\"product-info\">\n                <h5><a href=\"product.html?cod=" + product.cod + "\">" + product.title + "</a></h5>\n                <h6>$" + product.price + "</h6>\n            </div>\n            <a class=\"shopButton shopButton-products\">Comprar</a>\n        </div>\n        ";
+        return /* html */ "\n        <div class=\"product-card\" id=\"product_cod-" + product.cod + "\">\n            <a class=\"jsSAP_a product-image\" href=\"product.html?cod=" + product.cod + "\">\n                <img src=\"" + product.image + "\">\n            </a>\n            <div class=\"product-info\">\n                <h5><a href=\"product.html?cod=" + product.cod + "\">" + product.title + "</a></h5>\n                <h6>$" + product.price + "</h6>\n            </div>\n            <a class=\"shopButton shopButton-products\">Comprar</a>\n        </div>\n        ";
     };
     UI.appendOnCart = function (products) {
         var response = {};
@@ -172,6 +172,7 @@ var pagesHTML = {
 };
 var nav_buttons = document.getElementsByClassName("openNav-button");
 var nav_container = document.getElementById("nav-container");
+var jsSAP_a = document.getElementsByClassName("js-SAP_a");
 //  FUNCIONES
 function getPost(q) {
     return __awaiter(this, void 0, void 0, function () {
@@ -233,24 +234,26 @@ function listenToShopButtons() {
     });
 }
 function updateQuantityProducts(q) { document.getElementById("quantityProducts").innerHTML = String(q); }
+function indexFile() {
+    return /* html */ "\n        <header>\n            <h1>Furey's Lab</h1>\n            <h4>Soluciones Inteligentes</h4>\n        </header>\n        <article id=\"about-us\">\n            <h2>Sobre Nosotros</h2>\n            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, fugiat aliquid. Est sint eligendi harum dolore. Ipsam accusantium earum doloribus dignissimos illo hic voluptatum harum ducimus totam? Obcaecati totam laudantium quidem velit hic voluptatibus ratione deleniti saepe ullam tenetur enim eveniet eligendi ea optio aliquid esse cumque, facilis repellat commodi.</p>\n        </article>\n        <article class=\"article-even\">\n            <h3>Calidad Garantizada</h3>\n            <h2>Nuestros Productos</h2>\n            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo vel, dolorem rem reiciendis cupiditate officia.</p>\n            <a class=\"shop-btn\" href=\"products.html\">Comprar Ahora</a>\n        </article>\n        <article class=\"contact\" id=\"contact\">\n            <div class=\"contact-card\">\n                <h2>Cont\u00E1ctanos</h2>\n                <form>\n                    <div class=\"input-group\">\n                        <h5>Nombre y Apellido:</h5>\n                        <input placeholder=\"Juan Perez \" />\n                    </div>\n                    <div class=\"input-group\">\n                        <h5>Correo Electr\u00F3nico:</h5>\n                        <input placeholder=\"example@example.com\" />\n                    </div>\n                    <div class=\"input-group\">\n                        <h5>Mensaje:</h5>\n                        <textarea style=\"width: 100%;\" rows=\"5\"></textarea>\n                    </div>\n                </form>\n            </div>\n        </article>\n    ";
+}
 function productsFile() {
     return __awaiter(this, void 0, void 0, function () {
-        var page, products, index;
+        var page, products, innerHTML, index;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     page = Number(window.location.search.replace("?page=", "")) || 1;
                     return [4 /*yield*/, getPosts()];
                 case 1:
-                    window.history.pushState(null, "", "index.html");
                     products = _a.sent();
                     if (typeof products !== "string") {
+                        innerHTML = "\n            <h1>Productos</h1>\n            <div class=\"products\" id=\"products\">\n        ";
                         products.splice(0, (page - 1) * 10);
                         for (index = 0; index < 10; index++) {
-                            document.getElementsByClassName("products")[0].innerHTML += UI.appendOnProducts(new Product("img/noprew-index.png", products[index].title, "", products[index].body.length * 20, {}, products[index].id));
+                            innerHTML += UI.appendOnProducts(new Product("img/noprew-index.png", products[index].title, "", products[index].body.length * 20, {}, products[index].id));
                         }
-                        listenToShopButtons();
-                        document.getElementById("paginator").innerHTML = UI.appendOnPaginator(page);
+                        return [2 /*return*/, innerHTML + ("\n            </div>\n            <div class=\"paginator\">\n                " + UI.appendOnPaginator(page) + "\n            </div>\n        ")];
                     }
                     else {
                         if (confirm("Ha ocurrido un ERROR"))
@@ -272,14 +275,13 @@ function productFile() {
                 case 1:
                     product = _a.sent();
                     if (typeof product !== "string") {
-                        document.getElementsByClassName("product")[0].innerHTML = UI.appendOnProduct(new Product("img/noprew-index.png", product.title, product.body, product.body.length * 20, {
-                            "Caraterística 1": "Especificación 1",
-                            "Caraterística 2": "Especificación 2",
-                            "Caraterística 3": "Especificación 3",
-                            "Caraterística 4": "Especificación 4",
-                            "Caraterística 5": "Especificación 5"
-                        }, product.id));
-                        listenToShopButtons();
+                        return [2 /*return*/, "\n            <div class=\"product\">\n                " + UI.appendOnProduct(new Product("img/noprew-index.png", product.title, product.body, product.body.length * 20, {
+                                "Caraterística 1": "Especificación 1",
+                                "Caraterística 2": "Especificación 2",
+                                "Caraterística 3": "Especificación 3",
+                                "Caraterística 4": "Especificación 4",
+                                "Caraterística 5": "Especificación 5"
+                            }, product.id)) + "\n            </div>\n        "];
                     }
                     else {
                         if (confirm("Este Producto no existe"))
@@ -291,7 +293,7 @@ function productFile() {
     });
 }
 function cartFile() {
-    loadTable();
+    return /* html */ "\n    <div class=\"cartTitle\">\n        <h1>Bienvenido al Carrito</h1>\n    </div>\n    <div>\n        <h3 class=\"cartErrorMessage\" id=\"cartErrorMessage\"></h3>\n    </div>\n    <div class=\"tableContainer\">\n        <table>\n            <thead>\n                <tr>\n                    <th>A</th>\n                    <th>Concepto</th>\n                    <th>Unidades</th>\n                    <th>Precio Unitario</th>\n                    <th>Total</th>\n                </tr>\n            </thead>\n            <tbody id=\"tBody\"></tbody>\n            <tfoot>\n                <tr>\n                    <th colspan=\"4\">Total:</th>\n                    <th id=\"total\"></th>\n                </tr>\n            </tfoot>\n        </table>\n        <div class=\"cartCloseButtonContainer\">\n            <button class=\"cartCloseButton\" onclick=\"closeCart()\">Finalizar Compra</button>\n        </div>\n    </div>\n";
 }
 function loadTable() {
     var products = cart.getProducts();
@@ -329,17 +331,32 @@ function closeCart() {
 }
 //  EJECUTAR AL INICIO
 window.onload = window.onpagehide = window.onpageshow = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var arrayParsedHREF, htmlFile;
+    var arrayParsedHREF, htmlFileName, innerHTML;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 cart = new Cart();
                 arrayParsedHREF = window.location.pathname.split("/");
-                htmlFile = arrayParsedHREF[arrayParsedHREF.length - 1].replace(".html", "");
-                return [4 /*yield*/, pagesHTML[htmlFile]()];
+                htmlFileName = arrayParsedHREF[arrayParsedHREF.length - 1].replace(".html", "");
+                return [4 /*yield*/, pagesHTML[htmlFileName]()];
             case 1:
-                _a.sent();
+                innerHTML = _a.sent();
+                if (typeof innerHTML === "string") {
+                    document.getElementById("app").innerHTML = innerHTML;
+                }
+                if (["products", "product"].indexOf(htmlFileName) !== -1)
+                    listenToShopButtons();
+                else if (htmlFileName === "cart")
+                    loadTable();
                 updateQuantityProducts(cart.getQuantityProducts());
+                Array.from(jsSAP_a).forEach(function (a_button) {
+                    a_button.addEventListener("click", function (e) {
+                        e.preventDefault();
+                        var arrayParsedHREF = window.location.pathname.split("/");
+                        arrayParsedHREF[arrayParsedHREF.length - 1] = a_button.getAttribute("href");
+                        window.history.pushState(null, "", arrayParsedHREF.join("/"));
+                    });
+                });
                 return [2 /*return*/];
         }
     });
