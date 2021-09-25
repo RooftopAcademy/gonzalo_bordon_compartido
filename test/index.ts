@@ -509,9 +509,7 @@ function goForward() : void {
 }
 
 //  EJECUTAR AL INICIO
-window.onload = loadFile;
-window.onpagehide = goBack;
-window.onpageshow = goForward;
+window.onload = window.onpagehide = window.onpageshow = loadFile;
 
 async function loadFile() : Promise<void> { 
     cart = new Cart();
