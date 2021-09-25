@@ -464,7 +464,6 @@ function getHistory() : historyData {
 }
 
 function goBack() : void {
-    window.history.replaceState(null, "", "index.html");
     const { htmlFileName, page, cod, oldData, newData } : historyData = getHistory();
     if (oldData !== null) {
         sessionStorage.setItem("historyData", JSON.stringify({
@@ -488,7 +487,6 @@ function goBack() : void {
 }
 
 function goForward() : void {
-    window.history.pushState(null, "", "index.html");
     const { htmlFileName, page, cod, oldData, newData } : historyData = getHistory();
     if (newData !== null) {
         sessionStorage.setItem("historyData", JSON.stringify({
@@ -537,7 +535,6 @@ async function loadFile() : Promise<void> {
                     oldData: getHistory(),
                     newData: null,
                 }))
-                window.history.pushState(null, "", "index.html");
                 loadFile()
             })
         }
