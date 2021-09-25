@@ -151,7 +151,7 @@ class UI {
     static appendOnProducts(product : Product ) : string {
         return /* html */ `
         <div class="product-card" id="product_cod-${product.cod}">
-            <a class="product-image" href="product.html?cod=${product.cod}">
+            <a class="jsSAP_a product-image" href="product.html?cod=${product.cod}">
                 <img src="${product.image}">
             </a>
             <div class="product-info">
@@ -224,7 +224,7 @@ class UI {
 const API : string = "https://jsonplaceholder.typicode.com/";
 let cart : Cart;
 const pagesHTML: {
-    [index: string] : () => void | Promise<void>
+    [index: string] : () => void | string | Promise<string | void>
 } = {
     "cart": cartFile,
     "product": productFile,
@@ -234,6 +234,7 @@ const pagesHTML: {
 
 const nav_buttons : HTMLCollectionOf<Element> = document.getElementsByClassName("openNav-button");
 const nav_container : HTMLElement = document.getElementById("nav-container");
+const jsSAP_a : HTMLCollectionOf<Element> = document.getElementsByClassName("js-SAP_a");
 
 
 //  FUNCIONES
@@ -267,15 +268,57 @@ function listenToShopButtons() : void {
 
 function updateQuantityProducts(q : number) : void { document.getElementById("quantityProducts").innerHTML = String(q); }
 
-async function productsFile() : Promise<void> {
+function indexFile() : string {
+    return /* html */ `
+        <header>
+            <h1>Furey's Lab</h1>
+            <h4>Soluciones Inteligentes</h4>
+        </header>
+        <article id="about-us">
+            <h2>Sobre Nosotros</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, fugiat aliquid. Est sint eligendi harum dolore. Ipsam accusantium earum doloribus dignissimos illo hic voluptatum harum ducimus totam? Obcaecati totam laudantium quidem velit hic voluptatibus ratione deleniti saepe ullam tenetur enim eveniet eligendi ea optio aliquid esse cumque, facilis repellat commodi.</p>
+        </article>
+        <article class="article-even">
+            <h3>Calidad Garantizada</h3>
+            <h2>Nuestros Productos</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo vel, dolorem rem reiciendis cupiditate officia.</p>
+            <a class="shop-btn" href="products.html">Comprar Ahora</a>
+        </article>
+        <article class="contact" id="contact">
+            <div class="contact-card">
+                <h2>Contáctanos</h2>
+                <form>
+                    <div class="input-group">
+                        <h5>Nombre y Apellido:</h5>
+                        <input placeholder="Juan Perez " />
+                    </div>
+                    <div class="input-group">
+                        <h5>Correo Electrónico:</h5>
+                        <input placeholder="example@example.com" />
+                    </div>
+                    <div class="input-group">
+                        <h5>Mensaje:</h5>
+                        <textarea style="width: 100%;" rows="5"></textarea>
+                    </div>
+                </form>
+            </div>
+        </article>
+    `
+}
+
+async function productsFile() : Promise<string | void> {
     const page : number = Number(window.location.search.replace("?page=", "")) || 1;
     const products : responseProduct[] | apiError = await getPosts();
-
+    
     if (typeof products !== "string") {
+        let innerHTML = /* html */ `
+            <h1>Productos</h1>
+            <div class="products" id="products">
+        `
         products.splice(0, (page - 1) * 10)
     
         for (let index = 0; index < 10; index++) {
-            document.getElementsByClassName("products")[0].innerHTML += UI.appendOnProducts(
+            innerHTML += UI.appendOnProducts(
                 new Product(
                     "img/noprew-index.png",
                     products[index].title,
@@ -286,41 +329,78 @@ async function productsFile() : Promise<void> {
                 )
             )
         }
-        listenToShopButtons();
-        document.getElementById("paginator").innerHTML = UI.appendOnPaginator(page);
+        return innerHTML + `
+            </div>
+            <div class="paginator">
+                ${UI.appendOnPaginator(page)}
+            </div>
+        `
     } else {
         if ( confirm("Ha ocurrido un ERROR") ) window.history.back();
     }
 }
 
-async function productFile() : Promise<void> {
+async function productFile() : Promise<string | void> {
     const cod : string = window.location.search.replace("?cod=", "");
     const product : responseProduct | apiError = await getPost(cod);
     if (typeof product !== "string") {
-        document.getElementsByClassName("product")[0].innerHTML = UI.appendOnProduct(
-            new Product(
-                "img/noprew-index.png",
-                product.title,
-                product.body,
-                product.body.length * 20,
-                {
-                    "Caraterística 1": "Especificación 1",
-                    "Caraterística 2": "Especificación 2",
-                    "Caraterística 3": "Especificación 3",
-                    "Caraterística 4": "Especificación 4",
-                    "Caraterística 5": "Especificación 5"
-                },
-                product.id
-            )
-        );
-        listenToShopButtons();
+        return `
+            <div class="product">
+                ${UI.appendOnProduct(
+                    new Product(
+                        "img/noprew-index.png",
+                        product.title,
+                        product.body,
+                        product.body.length * 20,
+                        {
+                            "Caraterística 1": "Especificación 1",
+                            "Caraterística 2": "Especificación 2",
+                            "Caraterística 3": "Especificación 3",
+                            "Caraterística 4": "Especificación 4",
+                            "Caraterística 5": "Especificación 5"
+                        },
+                        product.id
+                    )
+                )}
+            </div>
+        `
     } else {
         if ( confirm("Este Producto no existe") ) window.history.back();
     }
 }
 
-function cartFile() : void {
-    loadTable()
+function cartFile() : string {
+    return /* html */ `
+    <div class="cartTitle">
+        <h1>Bienvenido al Carrito</h1>
+    </div>
+    <div>
+        <h3 class="cartErrorMessage" id="cartErrorMessage"></h3>
+    </div>
+    <div class="tableContainer">
+        <table>
+            <thead>
+                <tr>
+                    <th>A</th>
+                    <th>Concepto</th>
+                    <th>Unidades</th>
+                    <th>Precio Unitario</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="tBody"></tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="4">Total:</th>
+                    <th id="total"></th>
+                </tr>
+            </tfoot>
+        </table>
+        <div class="cartCloseButtonContainer">
+            <button class="cartCloseButton" onclick="closeCart()">Finalizar Compra</button>
+        </div>
+    </div>
+`
 }
 
 function loadTable() : void {
@@ -359,17 +439,34 @@ function closeCart() : void {
 }
 
 //  EJECUTAR AL INICIO
-window.onload = window.onpagehide = window.onpageshow = async () => { 
+window.onload = window.onpagehide = window.onpageshow = async () : Promise<void> => { 
     cart = new Cart();
     const arrayParsedHREF = window.location.pathname.split("/");
-    const htmlFile = arrayParsedHREF[arrayParsedHREF.length - 1].replace(".html", "");
-    await pagesHTML[htmlFile]();
+    const htmlFileName = arrayParsedHREF[arrayParsedHREF.length - 1].replace(".html", "");
 
-    updateQuantityProducts(cart.getQuantityProducts()) 
+    const innerHTML : string | void = await pagesHTML[htmlFileName]();
+
+    if (typeof innerHTML === "string") {
+        document.getElementById("app").innerHTML = innerHTML; 
+    }
+    if (["products", "product"].indexOf(htmlFileName) !== -1) listenToShopButtons();
+    else if (htmlFileName === "cart") loadTable();
+
+    updateQuantityProducts(cart.getQuantityProducts());
+
+
+    Array.from(jsSAP_a).forEach((a_button : Element) => {
+        a_button.addEventListener("click", (e) : void => {
+            e.preventDefault();
+            const arrayParsedHREF = window.location.pathname.split("/");
+            arrayParsedHREF[arrayParsedHREF.length - 1] = a_button.getAttribute("href");
+            window.history.pushState(null, "", arrayParsedHREF.join("/"));
+        })
+    })
 };
 
 Array.from(nav_buttons).forEach((nav_button : Element) => {
-    nav_button.addEventListener("click", () /* : Void */ => {
+    nav_button.addEventListener("click", () : void => {
         if (nav_container.className.search("active") === -1) nav_container.className += " active";
         else nav_container.className = nav_container.className.replace(" active", "");
     })

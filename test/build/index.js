@@ -242,6 +242,7 @@ function productsFile() {
                     page = Number(window.location.search.replace("?page=", "")) || 1;
                     return [4 /*yield*/, getPosts()];
                 case 1:
+                    window.history.pushState(null, "", "index.html");
                     products = _a.sent();
                     if (typeof products !== "string") {
                         products.splice(0, (page - 1) * 10);
