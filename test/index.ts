@@ -439,7 +439,7 @@ function closeCart() : void {
 }
 
 //  EJECUTAR AL INICIO
-window.onload = window.onpagehide = window.onpageshow = async () : Promise<void> => { 
+window.onload = window.onpagehide = window.onpageshow = window.onpopstate = async () : Promise<void> => { 
     cart = new Cart();
     const arrayParsedHREF = window.location.pathname.split("/");
     const htmlFileName = arrayParsedHREF[arrayParsedHREF.length - 1].replace(".html", "");
@@ -463,6 +463,8 @@ window.onload = window.onpagehide = window.onpageshow = async () : Promise<void>
         })
     })
 };
+
+
 
 Array.from(nav_buttons).forEach((nav_button : Element) => {
     nav_button.addEventListener("click", () : void => {
