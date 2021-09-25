@@ -290,7 +290,7 @@ function indexFile() : string {
             <h3>Calidad Garantizada</h3>
             <h2>Nuestros Productos</h2>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo vel, dolorem rem reiciendis cupiditate officia.</p>
-            <a class="js-SAP_a shop-btn" href="products.html">Comprar Ahora</a>
+            <a class="js-SAP_a shop-btn" data-html-file-name="products.html">Comprar Ahora</a>
         </article>
         <article class="contact" id="contact">
             <div class="contact-card">
@@ -487,6 +487,7 @@ function goBack() : void {
 }
 
 function goForward() : void {
+    window.history.pushState(null, "", "index.html");
     const { htmlFileName, page, cod, oldData, newData } : historyData = getHistory();
     if (newData !== null) {
         sessionStorage.setItem("historyData", JSON.stringify({
@@ -507,7 +508,7 @@ function goForward() : void {
 }
 
 //  EJECUTAR AL INICIO
-window.onload = window.onpagehide = window.onpageshow = loadFile;
+window.onload = window.onpopstate = loadFile;
 
 async function loadFile() : Promise<void> { 
     cart = new Cart();
@@ -535,6 +536,7 @@ async function loadFile() : Promise<void> {
                     oldData: getHistory(),
                     newData: null,
                 }))
+                window.history.pushState(null, "", "index.html");
                 loadFile()
             })
         }
