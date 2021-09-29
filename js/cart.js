@@ -12,10 +12,8 @@ const cart /* : Cart */ = new Cart();
 window.onload = loadTable
 
 function loadTable() /* : Void */ {
-    const products /* : object */ = cart.getProducts();
+    const products /* : object */ = cart.products;
     const responseToCart /* : responseToCart */ = ui.appendOnCart(products);
-
-    console.log(responseToCart)
 
     if (responseToCart.error) document.getElementById("cartErrorMessage").innerHTML = responseToCart.error;
     else {
@@ -36,7 +34,7 @@ function loadTable() /* : Void */ {
         }
     };
 
-    updateQuantityProducts(cart.getQuantityProducts());
+    updateQuantityProducts(cart.quantityProducts);
 }
 
 function closeCart() /* : Void */ {

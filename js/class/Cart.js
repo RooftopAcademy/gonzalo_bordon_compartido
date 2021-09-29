@@ -66,7 +66,7 @@ class Cart {
         alert("Imagina que la compra finalizó");
     }
 
-    getProducts() /* : object */ { return this._jsonCart }
+    get products() /* : object */ { return this._jsonCart }
 
-    getQuantityProducts() /* : number */ { return this._quantityProducts }
+    get quantityProducts() /* : number */ { return this._quantityProducts }
 }
