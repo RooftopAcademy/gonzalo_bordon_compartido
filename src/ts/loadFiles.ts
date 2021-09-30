@@ -1,9 +1,9 @@
-import { responseProduct, apiError } from "./interface";
+import { responseProduct, apiError, searchData } from "./interface";
 import Product from "./class/Product";
 import UI from "./class/UI";
 
-import { getPost, getPosts } from "./api";
-import { getSearch } from "./script";
+import { getPost, getPosts, getPostsBySearch } from "./api";
+import { getSearchURL } from "./script";
 
 function cartFile(): string {
     return /* html */ `
@@ -78,32 +78,34 @@ function indexFile(): string {
 }
 
 async function productsFile(): Promise<string | void> {
-    const page: number = Number(getSearch().page) || 1;
-    const products: responseProduct[] | apiError = await getPosts();
+    const { page, search }: searchData = getSearchURL();
+    const PAGE = Number(page) || 1;
+    const PRODUCTS: responseProduct[] | apiError = await ((search) ? getPostsBySearch: getPosts)(search);
     
-    if (typeof products !== "string") {
+    if (typeof PRODUCTS !== "string") {
+        const MAX_PAGE = Math.ceil(PRODUCTS.length / 10)
         let innerHTML = /* html */ `
             <h1 class="products-header">Productos</h1>
             <div class="products" id="products">
         `
-        products.splice(0, (page - 1) * 10)
-    
-        for (let index = 0; index < 10; index++) {
+        if (PRODUCTS.length > 10) { PRODUCTS.splice(0, (PAGE - 1) * 10) }
+        
+        for (let index = 0; index < 10 && index < PRODUCTS.length; index++) {
             innerHTML += UI.appendOnProducts(
                 new Product(
                     "src/img/noprew-index.png",
-                    products[index].title,
+                    PRODUCTS[index].title,
                     "",
-                    products[index].body.length * 20,
+                    PRODUCTS[index].body.length * 20,
                     {},
-                    products[index].id
+                    PRODUCTS[index].id
                 )
             )
         }
         return innerHTML + `
             </div>
             <div class="paginator">
-                ${UI.appendOnPaginator(page)}
+                ${UI.appendOnPaginator(PAGE, MAX_PAGE)}
             </div>
         `
     } else {
@@ -114,7 +116,7 @@ async function productsFile(): Promise<string | void> {
 }
 
 async function productFile(): Promise<string | void> {
-    const cod: string = getSearch().cod;
+    const cod: string = getSearchURL().cod;
     const product: responseProduct | apiError = await getPost(cod);
     if (typeof product !== "string") {
         return `

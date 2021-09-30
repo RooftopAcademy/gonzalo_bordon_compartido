@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPosts = exports.getPost = void 0;
+exports.getPostsBySearch = exports.getPosts = exports.getPost = void 0;
 var config_1 = require("./config");
 function getPost(q) {
     return __awaiter(this, void 0, void 0, function () {
@@ -64,3 +64,19 @@ function getPosts() {
     });
 }
 exports.getPosts = getPosts;
+function getPostsBySearch(search) {
+    return __awaiter(this, void 0, void 0, function () {
+        var SEARCH_REGEX, POSTS;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    SEARCH_REGEX = new RegExp(search);
+                    return [4 /*yield*/, getPosts()];
+                case 1:
+                    POSTS = _a.sent();
+                    return [2 /*return*/, (typeof POSTS === "string") ? POSTS : POSTS.filter(function (post) { return SEARCH_REGEX.test(post.title); })];
+            }
+        });
+    });
+}
+exports.getPostsBySearch = getPostsBySearch;

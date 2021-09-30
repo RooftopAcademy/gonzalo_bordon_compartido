@@ -1,18 +1,30 @@
 import { CART, HTML_PAGES_FUNCTIONS } from './config';
+import "./searchProducts";
 
 import { loadTable } from './cart';
-import { getSearch, listenToMenuHandlerButtons, listenToShopButtons, updateQuantityProducts } from "./script";
+import { getSearchURL, updateQuantityProducts } from "./script";
+import { listenToMenuHandlerButtons, listenToPaginatorButtons, listenToSearchs, listenToShopButtons } from "./listeners";
 
-const { htmlFileName } = getSearch();
+const { htmlFileName } = getSearchURL();
 const APP = document.getElementById("app");
 
-window.onload = async function loadFile() : Promise<void> { 
-    const innerHTML : string | void = await HTML_PAGES_FUNCTIONS[htmlFileName]();
+window.onload = async function loadFile(): Promise<void> { 
+    const innerHTML: string | void = await HTML_PAGES_FUNCTIONS[htmlFileName]();
 
     if (typeof innerHTML === "string") APP.innerHTML = innerHTML; 
-    if (htmlFileName === "products" || htmlFileName === "product") listenToShopButtons();
-    else if (htmlFileName === "cart") loadTable();
+    switch (htmlFileName) {
+        case "cart":
+            loadTable()
+            break;
+        case "products":
+            listenToPaginatorButtons();
+        case "product":
+            listenToShopButtons();
+        default:
+            break;
+    }
 
     updateQuantityProducts( String( CART.getQuantityProducts() ) );
     listenToMenuHandlerButtons();
+    listenToSearchs();
 };

@@ -1,27 +1,15 @@
-import { searchData, responseProduct, htmlFileName, apiError } from "./interface";
+import { searchData, htmlFileName, searchParam, searchDataToSet } from "./interface";
 
-import { getPost } from "./api";
-
-import { PAGES, DEFAULT_HTML_FILE, CART } from "./config";
+import { PAGES, DEFAULT_HTML_FILE } from "./config";
 
 //  HTML
-const MENU_HANDLERS_BUTTONS: HTMLCollectionOf<Element> = document.getElementsByClassName("openNav-button");
-const MENU_CONTAINER: HTMLElement = document.getElementById("nav-container");
 const QUANTITY_PRODUCTS_INDICATOR: HTMLElement = document.getElementById("quantityProducts");
-const SHOP_BUTTONS: HTMLCollectionOf<Element> = document.getElementsByClassName("shopButton");
-
-//  CSS CLASES
-const MENU_CONTAINER_CLASS_SHOW = "active";
-
-//  EVENTS
-const SHOP_BUTTONS_EVENT = "click";
-const MENU_HANDLERS_BUTTONS_EVENT = "click";
 
 //  URL
-const URL_SEARCH: URLSearchParams = new URLSearchParams(document.location.search.replace("?", ""));
+const URL_SEARCH: URLSearchParams = new URLSearchParams(document.location.search);
 const PARAM_htmlFileName: string = URL_SEARCH.get("htmlFileName");
 
-function getSearch(): searchData {
+function getSearchURL(): searchData {
     let htmlFileName: htmlFileName = DEFAULT_HTML_FILE;
     
     PAGES.forEach((page: htmlFileName): void => { if (page === PARAM_htmlFileName) { htmlFileName = page }})
@@ -29,40 +17,27 @@ function getSearch(): searchData {
     return {
         htmlFileName,
         page: URL_SEARCH.get("page") || "",
-        cod: URL_SEARCH.get("cod") || ""
+        cod: URL_SEARCH.get("cod") || "",
+        search: URL_SEARCH.get("search") || "",
     }
 }
 
-function listenToShopButtons(): void { 
-    Array.from(SHOP_BUTTONS).forEach((button: Element): void => { 
-        button.addEventListener(SHOP_BUTTONS_EVENT, async (e: Event ): Promise<void> => {
-            if (e.target instanceof HTMLElement) {
-                const product: responseProduct | apiError = await getPost(e.target.dataset.cod);
-                
-                if (typeof product !== "string") {
-                    CART.addToCart(product);
-                    updateQuantityProducts( String( CART.getQuantityProducts() ) );
-                } else {
-                    alert("Ha ocurrido un error al añadir este producto al carrito");
-                }
-            }
-        })
-    });
+function setSearchURL(URL_SEARCH_PARAMS: searchDataToSet): void {
+    Object.keys(URL_SEARCH_PARAMS).forEach((key: string): void => { URL_SEARCH.set(key, URL_SEARCH_PARAMS[(key as searchParam)]); })
+    window.location.search = stringfyURLSearch();
+}
+
+function stringfyURLSearch() {
+    let newSearch = "?";
+    for(const URL_PAIR of Array.from(URL_SEARCH.entries())) { newSearch += `${URL_PAIR[0]}=${URL_PAIR[1]}&`; }
+
+    return newSearch.slice(0,newSearch.length - 1)
 }
 
 function updateQuantityProducts(q: string): void { QUANTITY_PRODUCTS_INDICATOR.innerHTML = q; }
 
-function listenToMenuHandlerButtons(): void {
-    Array.from(MENU_HANDLERS_BUTTONS).forEach((button: Element) => {
-        button.addEventListener(MENU_HANDLERS_BUTTONS_EVENT, (): void => {
-            MENU_CONTAINER.classList.toggle(MENU_CONTAINER_CLASS_SHOW)
-        })
-    });
-}
-
 export {
-    getSearch,
-    listenToShopButtons,
-    updateQuantityProducts,
-    listenToMenuHandlerButtons
+    getSearchURL,
+    setSearchURL,
+    updateQuantityProducts
 }

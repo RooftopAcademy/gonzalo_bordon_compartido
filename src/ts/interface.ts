@@ -9,7 +9,8 @@ interface jsonProduct {
 interface searchData {
     htmlFileName: htmlFileName,
     page: string,
-    cod: string
+    cod: string,
+    search: string
 }
 
 interface cartProducts {
@@ -28,6 +29,7 @@ interface responseProduct {
     userId: number
 }
 
+
 type htmlFileLoaders = {
     cart: () => string;
     product: () => Promise<string | void>;
@@ -41,16 +43,27 @@ type responseToCart = {
     error?: string
 }
 
+//  SEARCH Types
+type searchDataToSet = {
+    htmlFileName?: htmlFileName,
+    page?: string,
+    cod?: string,
+    search?: string
+}
+type searchParam = "htmlFileName" | "page" | "cod" | "search";
+
 //  API Types
 type apiError = "ERROR";
 type apiURL = string;
 
-//
+//  HTML Types
 type htmlFileName = "index" | "cart" | "product" | "products";
 
 export {
     jsonProduct,
     searchData,
+    searchParam,
+    searchDataToSet,
     cartStructure,
     cartProducts,
     responseProduct,
