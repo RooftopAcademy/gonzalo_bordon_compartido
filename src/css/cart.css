@@ -60,6 +60,7 @@ th, td {
 
 .adminTD {
     display: flex;
+    justify-content: space-around;
 }
 
 .conceptTable {
