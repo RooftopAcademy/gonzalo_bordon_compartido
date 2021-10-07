@@ -54,21 +54,25 @@ function indexFile() {
 exports.indexFile = indexFile;
 function productsFile() {
     return __awaiter(this, void 0, void 0, function () {
-        var page, products, innerHTML, index;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+        var _a, page, search, PAGE, PRODUCTS, MAX_PAGE, innerHTML, index;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    page = Number((0, script_1.getSearch)().page) || 1;
-                    return [4 /*yield*/, (0, api_1.getPosts)()];
+                    _a = (0, script_1.getSearchURL)(), page = _a.page, search = _a.search;
+                    PAGE = Number(page) || 1;
+                    return [4 /*yield*/, ((search) ? api_1.getPostsBySearch : api_1.getPosts)(search)];
                 case 1:
-                    products = _a.sent();
-                    if (typeof products !== "string") {
+                    PRODUCTS = _b.sent();
+                    if (typeof PRODUCTS !== "string") {
+                        MAX_PAGE = Math.ceil(PRODUCTS.length / 10);
                         innerHTML = "\n            <h1 class=\"products-header\">Productos</h1>\n            <div class=\"products\" id=\"products\">\n        ";
-                        products.splice(0, (page - 1) * 10);
-                        for (index = 0; index < 10; index++) {
-                            innerHTML += UI_1.default.appendOnProducts(new Product_1.default("src/img/noprew-index.png", products[index].title, "", products[index].body.length * 20, {}, products[index].id));
+                        if (PRODUCTS.length > 10) {
+                            PRODUCTS.splice(0, (PAGE - 1) * 10);
                         }
-                        return [2 /*return*/, innerHTML + ("\n            </div>\n            <div class=\"paginator\">\n                " + UI_1.default.appendOnPaginator(page) + "\n            </div>\n        ")];
+                        for (index = 0; index < 10 && index < PRODUCTS.length; index++) {
+                            innerHTML += UI_1.default.appendOnProducts(new Product_1.default("src/img/noprew-index.png", PRODUCTS[index].title, "", PRODUCTS[index].body.length * 20, {}, PRODUCTS[index].id));
+                        }
+                        return [2 /*return*/, innerHTML + ("\n            </div>\n            <div class=\"paginator\">\n                " + UI_1.default.appendOnPaginator(PAGE, MAX_PAGE) + "\n            </div>\n        ")];
                     }
                     else {
                         if (confirm("Ha ocurrido un ERROR")) {
@@ -88,7 +92,7 @@ function productFile() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    cod = (0, script_1.getSearch)().cod;
+                    cod = (0, script_1.getSearchURL)().cod;
                     return [4 /*yield*/, (0, api_1.getPost)(cod)];
                 case 1:
                     product = _a.sent();

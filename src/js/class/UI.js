@@ -29,26 +29,36 @@ var UI = /** @class */ (function () {
             response.error = "No hay ningún producto añadido al carrito";
         return response;
     };
-    UI.appendOnPaginator = function (page) {
+    UI.appendOnPaginator = function (page, maxPage) {
+        console.log(maxPage);
         var innerHTML = "";
         var left = page - 1;
         var center = page;
         var right = page + 1;
-        if (page >= 3)
-            innerHTML += "<a href=\"?htmlFileName=products&page=1\"><<</a>";
+        if (page >= 3 && maxPage > 3)
+            innerHTML += "<a class=\"js-paginator\" data-page=\"1\"><<</a>";
         if (page === 1) {
             ++left;
             ++center;
             ++right;
         }
-        else if (page === 10) {
+        else if (page === maxPage) {
             --left;
             --center;
             --right;
         }
-        innerHTML += "\n            <a class=\"" + ((left === page) ? "active" : "") + "\" href=\"?htmlFileName=products&page=" + left + "\">" + left + "</a>\n            <a class=\"" + ((center === page) ? "active" : "") + "\" href=\"?htmlFileName=products&page=" + center + "\">" + center + "</a>\n            <a class=\"" + ((right === page) ? "active" : "") + "\" href=\"?htmlFileName=products&page=" + right + "\">" + right + "</a>\n        ";
-        if (page <= 8)
-            innerHTML += "<a href=\"?htmlFileName=products&page=10\">>></a>";
+        innerHTML +=
+            ((left > 0 && left <= maxPage)
+                ? "<a class=\"js-paginator " + ((left === page) ? "active" : "") + "\" data-page=\"" + left + "\">" + left + "</a>"
+                : "") +
+                ((center > 0 && center <= maxPage)
+                    ? "<a class=\"js-paginator " + ((center === page) ? "active" : "") + "\" data-page=\"" + center + "\">" + center + "</a>"
+                    : "") +
+                ((right > 0 && right <= maxPage)
+                    ? "<a class=\"js-paginator " + ((right === page) ? "active" : "") + "\" data-page=\"" + right + "\">" + right + "</a>"
+                    : "");
+        if (page <= 8 && maxPage > 3)
+            innerHTML += "<a class=\"js-paginator\" data-page=\"" + maxPage + "\">>></a>";
         return innerHTML;
     };
     return UI;

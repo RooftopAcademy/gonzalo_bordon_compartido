@@ -10,7 +10,7 @@ const CART = new Cart();
 
 //  GENERAL
 const PAGES: htmlFileName[] = ["index", "cart", "products", "product"];
-const DEFAULT_HTML_FILE = "index";
+const DEFAULT_HTML_FILE: htmlFileName = "index";
 const HTML_PAGES_FUNCTIONS: htmlFileLoaders = {
     cart: cartFile,
     product: productFile,

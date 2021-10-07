@@ -37,9 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("./config");
+require("./searchProducts");
 var cart_1 = require("./cart");
 var script_1 = require("./script");
-var htmlFileName = (0, script_1.getSearch)().htmlFileName;
+var listeners_1 = require("./listeners");
+var htmlFileName = (0, script_1.getSearchURL)().htmlFileName;
 var APP = document.getElementById("app");
 window.onload = function loadFile() {
     return __awaiter(this, void 0, void 0, function () {
@@ -51,12 +53,20 @@ window.onload = function loadFile() {
                     innerHTML = _a.sent();
                     if (typeof innerHTML === "string")
                         APP.innerHTML = innerHTML;
-                    if (htmlFileName === "products" || htmlFileName === "product")
-                        (0, script_1.listenToShopButtons)();
-                    else if (htmlFileName === "cart")
-                        (0, cart_1.loadTable)();
+                    switch (htmlFileName) {
+                        case "cart":
+                            (0, cart_1.loadTable)();
+                            break;
+                        case "products":
+                            (0, listeners_1.listenToPaginatorButtons)();
+                        case "product":
+                            (0, listeners_1.listenToShopButtons)();
+                        default:
+                            break;
+                    }
                     (0, script_1.updateQuantityProducts)(String(config_1.CART.getQuantityProducts()));
-                    (0, script_1.listenToMenuHandlerButtons)();
+                    (0, listeners_1.listenToMenuHandlerButtons)();
+                    (0, listeners_1.listenToSearchs)();
                     return [2 /*return*/];
             }
         });
