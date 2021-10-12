@@ -59,6 +59,7 @@ section h1 {
     display: flex;
     justify-content: center;
     margin-block: 20px;
+    width: 100%;
 }
 
 .paginator a {

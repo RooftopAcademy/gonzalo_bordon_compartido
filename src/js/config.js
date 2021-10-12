@@ -1,26 +1,21 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SS_CART = exports.API_ERROR = exports.API_POSTS = exports.HTML_PAGES_FUNCTIONS = exports.DEFAULT_HTML_FILE = exports.PAGES = exports.CART = void 0;
-var Cart_1 = __importDefault(require("./class/Cart"));
-var loadFiles_1 = require("./loadFiles");
-//  CLASES
-var CART = new Cart_1.default();
-exports.CART = CART;
+exports.SS_CART = exports.API_ERROR = exports.API_POSTS = exports.DEFAULT_HTML_FILE = exports.PAGES = exports.SEARCH_PAIR_INPUTS = exports.QUANTITY_PRODUCTS_INDICATOR = void 0;
+//  HTML
+var SEARCH_INPUT_S = document.getElementById("search-input-s");
+var SEARCH_INPUT = document.getElementById("search-input");
+var QUANTITY_PRODUCTS_INDICATOR = document.getElementById("quantityProducts");
+exports.QUANTITY_PRODUCTS_INDICATOR = QUANTITY_PRODUCTS_INDICATOR;
 //  GENERAL
-var PAGES = ["index", "cart", "products", "product"];
+var PAGES = ["index", "cart", "products", "product", "error"];
 exports.PAGES = PAGES;
 var DEFAULT_HTML_FILE = "index";
 exports.DEFAULT_HTML_FILE = DEFAULT_HTML_FILE;
-var HTML_PAGES_FUNCTIONS = {
-    cart: loadFiles_1.cartFile,
-    product: loadFiles_1.productFile,
-    products: loadFiles_1.productsFile,
-    index: loadFiles_1.indexFile,
+var SEARCH_PAIR_INPUTS = {
+    "search-button-s": SEARCH_INPUT_S,
+    "search-button": SEARCH_INPUT
 };
-exports.HTML_PAGES_FUNCTIONS = HTML_PAGES_FUNCTIONS;
+exports.SEARCH_PAIR_INPUTS = SEARCH_PAIR_INPUTS;
 //  API
 var API_POSTS = "https://jsonplaceholder.typicode.com/posts/";
 exports.API_POSTS = API_POSTS;
