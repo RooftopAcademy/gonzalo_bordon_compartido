@@ -41,14 +41,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var main_1 = __importDefault(require("../main"));
 //  HTML
+var LOGIN_FORM = document.getElementById("js-loginForm");
 function loginHandler() {
     return __awaiter(this, void 0, void 0, function () {
-        var LOGIN_FORM, _a, email, password, response;
+        var _a, email, password, response;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    LOGIN_FORM = new FormData(document.getElementById("js-loginForm"));
-                    _a = Object.fromEntries(LOGIN_FORM.entries()), email = _a.email, password = _a.password;
+                    _a = Object.fromEntries(new FormData(LOGIN_FORM).entries()), email = _a.email, password = _a.password;
                     return [4 /*yield*/, main_1.default.users.loginUser(email, password)];
                 case 1:
                     response = _b.sent();

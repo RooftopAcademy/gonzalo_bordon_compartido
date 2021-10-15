@@ -108,6 +108,9 @@ var Users = /** @class */ (function (_super) {
             });
         });
     };
+    Users.prototype.isLogued = function () {
+        return !!this.getStorage().id;
+    };
     return Users;
 }(Storage_1.default));
 exports.default = Users;

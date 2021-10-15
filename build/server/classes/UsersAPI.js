@@ -47,10 +47,10 @@ var UsersAPI = /** @class */ (function (_super) {
             password: password,
             id: config.maxID,
         });
+        this.setTable("users", this.users);
         return config.maxID;
     };
     UsersAPI.prototype.validateUser = function () {
-        console.log(this.body);
         var _a = this.body, email = _a.email, password = _a.password;
         var user = this.getUser(email);
         if (user && user.password === password) {

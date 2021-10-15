@@ -41,14 +41,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var main_1 = __importDefault(require("../main"));
 //  HTML
-var REGISTER_FORM = new FormData(document.getElementById("js-registerForm"));
+var REGISTER_FORM = document.getElementById("js-registerForm");
 function registerHandler() {
     return __awaiter(this, void 0, void 0, function () {
         var _a, email, password, passwordRepeat, response;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _a = Object.fromEntries(REGISTER_FORM.entries()), email = _a.email, password = _a.password, passwordRepeat = _a.passwordRepeat;
+                    _a = Object.fromEntries(new FormData(REGISTER_FORM).entries()), email = _a.email, password = _a.password, passwordRepeat = _a.passwordRepeat;
                     if (!(password === passwordRepeat)) return [3 /*break*/, 2];
                     return [4 /*yield*/, main_1.default.users.registerUser(email, password)];
                 case 1:

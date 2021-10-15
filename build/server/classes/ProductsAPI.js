@@ -56,7 +56,7 @@ var ProductsAPI = /** @class */ (function (_super) {
     };
     ProductsAPI.prototype.getProduct = function () {
         var id = this.params.id;
-        return this.products.find(function (product) { return product.id === id; });
+        return this.products.find(function (product) { return product.id === +id; });
     };
     return ProductsAPI;
 }(DataBase_1.default));

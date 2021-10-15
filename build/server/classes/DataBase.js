@@ -52,7 +52,7 @@ var DataBase = /** @class */ (function (_super) {
         return DATABASE_DIR + "/" + tableName + ".json";
     };
     DataBase.prototype.returnConfig = function () {
-        return this.returnTable(this.getTablePath("config"));
+        return this.returnTable("config");
     };
     return DataBase;
 }(Filter_1.default));
