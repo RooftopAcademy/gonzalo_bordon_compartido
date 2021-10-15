@@ -7,7 +7,7 @@ import ProductsAPI from "../classes/ProductsAPI";
 import ProductsCardComponent from "../components/ProductsCardComponent";
 import PaginatorComponent from "../components/PaginatorComponent";
 
-module.exports = function productsController(req: any, res: any) {
+module.exports = function productsGet(req: any, res: any) {
   const { products, page, maxPage } = new ProductsAPI(req).getProducts();
 
   const productsHTML: htmlString = products

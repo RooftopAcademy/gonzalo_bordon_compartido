@@ -1,11 +1,11 @@
 import Product from "../interfaces/Product";
 
-import API from "../classes/API";
+import ProductsAPI from "../classes/ProductsAPI";
 
 import ProductSpecsComponent from "../components/ProductSpecsComponent";
 
-module.exports = function productController(req: any, res: any) {
-  const product: Product = API.getProduct(+req.params.id);
+module.exports = function productGet(req: any, res: any) {
+  const product: Product = new ProductsAPI(req).getProduct();
 
   const config: any = product;
   config.productSpecs = ProductSpecsComponent(product.caracts);
