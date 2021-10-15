@@ -1,0 +1,25 @@
+<%- include('partials/header') %>
+
+<div class="product">
+  <div style="display: flex;justify-content: center;">
+    <div class="product-image">
+      <img src="<%= image %>">
+      <div class="favorites-icon <%- (isFavorite) ? 'selected' : '' %>">
+        &#9733;
+      </div>
+    </div>
+  </div>
+  <div class="product-info">
+    <h2><%= title %></h2>
+    <p><%= body %></p>
+    <div class="productSpecs">
+      <span class="product-spec">Precio: </span>$<%= price %>
+    </div>
+    <div class="container-productSpecs">
+      <%- productSpecs %>
+    </div>
+    <a class="shopButton" data-id="<%= id %>">Comprar</a>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
