@@ -1,6 +1,9 @@
 [{
-    "id": 1,
-    "email": "gonzalobordon02@hotmail.com",
-    "password": "123"
-  }
-]
+  "id": 1,
+  "email": "gonzalobordon02@hotmail.com",
+  "password": "123"
+}, {
+  "email": "xdxd",
+  "password": "123",
+  "id": 3
+}]
