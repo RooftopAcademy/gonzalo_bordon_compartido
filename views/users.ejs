@@ -1,0 +1,42 @@
+<%- include('partials/header') %>
+<div class="users-container">
+  <article class="contact" style="margin: 0;">
+    <div class="contact-card">
+      <h2>Inicia Sesión</h2>
+      <form id="js-loginForm">
+        <div class="input-group">
+          <h5>Correo Electrónico:</h5>
+          <input name="email" type="email" placeholder="example@example.com" />
+        </div>
+        <div class="input-group">
+          <h5>Contraseña:</h5>
+          <input type="password" name="password" placeholder="123456" />
+        </div>
+        <a class="shop-btn" id="js-loginFormBTN">Iniciar Sesión</a>
+      </form>
+    </div>
+  </article>
+
+  <article class="contact" style="margin: 0;">
+    <div class="contact-card">
+      <h2>Regístate</h2>
+      <form id="js-registerForm">
+        <div class="input-group">
+          <h5>Correo Electrónico:</h5>
+          <input name="email" type="email" placeholder="example@example.com" />
+        </div>
+        <div class="input-group">
+          <h5>Contraseña:</h5>
+          <input type="password" name="password" placeholder="123456" />
+        </div>
+        <div class="input-group">
+          <h5>Repite la Contraseña:</h5>
+          <input type="password" name="passwordRepeat" placeholder="123456" />
+        </div>
+        <a class="shop-btn" id="js-registerFormBTN">Registrarse</a>
+      </form>
+    </div>
+  </article>
+</div>
+
+<%- include('partials/footer') %>
