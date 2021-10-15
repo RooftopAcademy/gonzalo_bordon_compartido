@@ -7,6 +7,7 @@ import shopListener from "../listeners/shopListener";
 
 //  CLASSES
 import Favorites from "./Favorites";
+import Users from "./Users";
 import Cart from "./Cart";
 import UI from "./UI";
 
@@ -14,10 +15,12 @@ import UI from "./UI";
 import updateQuantityProducts from "../scripts/updateQuantityProducts";
 import loadTable from "../scripts/loadTable";
 import { CURRENT_PAGE } from "../config";
+import loginRegisterListener from "../listeners/loginRegisterListener";
 
 export default class App {
   public ui: UI;
   public cart: Cart;
+  public users: Users;
   public favorites: Favorites;
   private PREPARE: {
     [index: string]: string;
@@ -25,12 +28,14 @@ export default class App {
     products: "productsPrepare",
     product: "productPrepare",
     cart: "cartPrepare",
+    users: "usersPrepare"
   };
 
   constructor(HTML_APP: HTMLElement) {
     this.ui = new UI(HTML_APP);
     this.cart = new Cart();
     this.favorites = new Favorites();
+    this.users = new Users();
   }
 
   /**
@@ -70,4 +75,11 @@ export default class App {
     closeCartListener(this.cart);
     loadTable(this.cart);
   }
+
+    /**
+   * Loads all listeners for Users.
+   */
+     private usersPrepare(): void {
+      loginRegisterListener();
+    }
 }
