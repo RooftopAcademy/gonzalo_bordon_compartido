@@ -1,33 +1,40 @@
-import ProductsAPI from "./classes/ProductsAPI";
-
 const { Router } = require("express");
 const router = Router();
 
 // CONTROLLERS
-const productsController = require("./routes/products.controller");
-const productController = require("./routes/product.controller");
-const indexController = require("./routes/index.controller");
-const cartController = require("./routes/cart.controller");
+const productsGet = require("./controllers/products.get");
+const productGet = require("./controllers/product.get");
+const indexGet = require("./controllers/index.get");
+const usersGet = require("./controllers/users.get");
+const cartGet = require("./controllers/cart.get");
 
-router.get("/", indexController);
-router.get("/products/:page", productsController);
-router.get("/products", productsController);
-router.get("/product/:id", productController);
-router.get("/cart", cartController);
+const productsIDsPost = require("./controllers/productsIDs.post");
+const productsPost = require("./controllers/products.post");
+const usersPost = require("./controllers/users.post");
+
+const usersPut = require("./controllers/users.put");
+
+router.get("/", indexGet);
+
+router.get("/products/:page", productsGet);
+router.get("/products", productsGet);
+
+router.get("/product/:id", productGet);
+
+router.get("/users", usersGet);
+
+router.get("/cart", cartGet);
 
 // POST
-router.post("/products/ids", (req: any, res: any) => {
-  const response = new ProductsAPI(req).getProductsById()
-  res.json(response);
-});
-router.post("/products/:page", (req: any, res: any) => {
-  const response = new ProductsAPI(req).getProducts()
-  res.json(response);
-});
-router.post("/products", (req: any, res: any) => {
-  const response = new ProductsAPI(req).getProducts()
-  res.json(response);
-});
+router.post("/products/ids", productsIDsPost);
+router.post("/products/:page", productsPost);
+router.post("/products", productsPost);
+
+router.post("/users", usersPost);
+
+
+// PUT
+router.put("/users", usersPut);
 
 
 router.use((req: any, res: any) => {
