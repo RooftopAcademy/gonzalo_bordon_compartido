@@ -5,8 +5,9 @@ export default function sendSearchRequest(
     input: HTMLInputElement
 ): void {
     //if (CURRENT_PAGE !== "products") {
+        console.log(input.value)
         return Router.followWithParams("/products", {
-            "search": input.value
+            search: input.value
         })
     //}
 }

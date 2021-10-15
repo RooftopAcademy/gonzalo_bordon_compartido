@@ -25,16 +25,19 @@ var ProductsAPI = /** @class */ (function (_super) {
         var _this = _super.call(this, "products") || this;
         _this.params = {};
         _this.body = {};
+        _this.query = {};
         _this.params = req.params;
         _this.body = req.body;
+        _this.query = req.query;
         _this.products = _this.getTable();
         return _this;
     }
     ProductsAPI.prototype.getProducts = function () {
         var _this = this;
         var _a = this.params, page = _a.page, min = _a.min, max = _a.max;
-        var search = this.body.search;
+        var search = this.query.search;
         var SEARCH_REGEX = new RegExp(search);
+        console.log(this.body, this.params, this.query);
         var products = this.products.filter(function (product) {
             return SEARCH_REGEX.test(product.title.toLowerCase()) &&
                 _this.inRange(product.price, min, max);

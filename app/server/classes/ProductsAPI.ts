@@ -5,12 +5,14 @@ import DataBase from "./DataBase";
 export default class ProductsAPI extends DataBase {
   private params: any = {};
   private body: any = {};
+  private query: any = {};
   private products: Product[];
 
   constructor(req: any) {
     super("products");
     this.params = req.params;
     this.body = req.body;
+    this.query = req.query;
     this.products = this.getTable();
   }
 
@@ -20,7 +22,7 @@ export default class ProductsAPI extends DataBase {
     page: number;
   } {
     const { page, min, max } = this.params;
-    const { search } = this.body;
+    const { search } = this.query;
     const SEARCH_REGEX: RegExp = new RegExp(search);
 
     const products: Product[] = this.products.filter(

@@ -18,7 +18,7 @@ var Router = /** @class */ (function () {
     Router.stringfyParams = function (params) {
         return ("?" +
             Object.keys(params)
-                .map(function (key) { return key + "=params[key]"; })
+                .map(function (key) { return key + "=" + params[key]; })
                 .join("&"));
     };
     return Router;
