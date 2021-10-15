@@ -42,6 +42,6 @@ export default class DataBase extends Filter {
   }
 
   private returnConfig(): any {
-    return this.returnTable(this.getTablePath("config"));
+    return this.returnTable("config");
   }
 }

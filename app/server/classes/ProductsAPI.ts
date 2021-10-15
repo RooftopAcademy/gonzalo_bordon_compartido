@@ -48,6 +48,6 @@ export default class ProductsAPI extends DataBase {
 
   public getProduct(): Product {
     const { id } = this.params;
-    return this.products.find((product: any) => product.id === id);
+    return this.products.find((product: any) => product.id === +id);
   }
 }

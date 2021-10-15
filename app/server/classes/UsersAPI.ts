@@ -36,6 +36,8 @@ export default class UsersAPI extends DataBase {
       id: config.maxID,
     });
 
+    this.setTable("users", this.users);
+
     return config.maxID;
   }
 
