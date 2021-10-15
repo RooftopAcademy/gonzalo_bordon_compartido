@@ -11,22 +11,26 @@ var searchsListener_1 = __importDefault(require("../listeners/searchsListener"))
 var shopListener_1 = __importDefault(require("../listeners/shopListener"));
 //  CLASSES
 var Favorites_1 = __importDefault(require("./Favorites"));
+var Users_1 = __importDefault(require("./Users"));
 var Cart_1 = __importDefault(require("./Cart"));
 var UI_1 = __importDefault(require("./UI"));
 //  SCRIPTS
 var updateQuantityProducts_1 = __importDefault(require("../scripts/updateQuantityProducts"));
 var loadTable_1 = __importDefault(require("../scripts/loadTable"));
 var config_1 = require("../config");
+var loginRegisterListener_1 = __importDefault(require("../listeners/loginRegisterListener"));
 var App = /** @class */ (function () {
     function App(HTML_APP) {
         this.PREPARE = {
             products: "productsPrepare",
             product: "productPrepare",
             cart: "cartPrepare",
+            users: "usersPrepare"
         };
         this.ui = new UI_1.default(HTML_APP);
         this.cart = new Cart_1.default();
         this.favorites = new Favorites_1.default();
+        this.users = new Users_1.default();
     }
     /**
      * Loads and runs the needed listeners.
@@ -59,6 +63,12 @@ var App = /** @class */ (function () {
     App.prototype.cartPrepare = function () {
         (0, closeCartListener_1.default)(this.cart);
         (0, loadTable_1.default)(this.cart);
+    };
+    /**
+   * Loads all listeners for Users.
+   */
+    App.prototype.usersPrepare = function () {
+        (0, loginRegisterListener_1.default)();
     };
     return App;
 }());

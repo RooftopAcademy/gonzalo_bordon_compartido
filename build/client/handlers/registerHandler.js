@@ -39,49 +39,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var config_1 = require("../config");
-var apiErrorHandler_1 = __importDefault(require("../errors/apiErrorHandler"));
-var API = /** @class */ (function () {
-    function API() {
-    }
-    API.fetchAPI = function (url, data, method) {
-        if (method === void 0) { method = "POST"; }
-        return __awaiter(this, void 0, void 0, function () {
-            var response, responseJson;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, fetch(url, {
-                            method: method,
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify(data),
-                        })];
-                    case 1:
-                        response = _a.sent();
-                        return [4 /*yield*/, response.json()];
-                    case 2:
-                        responseJson = _a.sent();
-                        if (response.ok) {
-                            return [2 /*return*/, Object.keys(responseJson).length === 0 ? config_1.API_ERROR : responseJson];
-                        }
-                        return [2 /*return*/, responseJson.message];
-                }
-            });
+var main_1 = __importDefault(require("../main"));
+//  HTML
+var REGISTER_FORM = new FormData(document.getElementById("js-registerForm"));
+function registerHandler() {
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, email, password, passwordRepeat, response;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = Object.fromEntries(REGISTER_FORM.entries()), email = _a.email, password = _a.password, passwordRepeat = _a.passwordRepeat;
+                    if (!(password === passwordRepeat)) return [3 /*break*/, 2];
+                    return [4 /*yield*/, main_1.default.users.registerUser(email, password)];
+                case 1:
+                    response = _b.sent();
+                    return [2 /*return*/, alert(response ? response : "Registrado con Éxito")];
+                case 2:
+                    alert("Las contraseñas no coinciden.");
+                    return [2 /*return*/];
+            }
         });
-    };
-    /**
-     *
-     * @param apiResponse An API method return
-     * @returns if the api is or not an Error
-     */
-    API.isApiError = function (apiResponse) {
-        if (typeof apiResponse === "string") {
-            (0, apiErrorHandler_1.default)("Ha ocurrido un error.");
-            return true;
-        }
-        return false;
-    };
-    return API;
-}());
-exports.default = API;
+    });
+}
+exports.default = registerHandler;
