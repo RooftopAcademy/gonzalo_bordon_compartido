@@ -6,8 +6,7 @@ export default function ProductsCardComponent(
         id,
         price, 
         title
-    }: Product,
-    isFavorite: boolean
+    }: Product
 ): string {
     return /* html */ `
         <div class="product-card">
@@ -16,7 +15,7 @@ export default function ProductsCardComponent(
                     <a href="/product/${id}">
                         <img src="${image}">
                     </a>
-                    <div class="favorites-icon ${isFavorite ? "selected" : ""}" data-id="${id}">
+                    <div class="favorites-icon" data-id="${id}">
                         &#9733;
                     </div>
                 </div>

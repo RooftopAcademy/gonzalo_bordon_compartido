@@ -11,7 +11,7 @@ module.exports = function productsGet(req: any, res: any) {
   const { products, page, maxPage } = new ProductsAPI(req).getProducts();
 
   const productsHTML: htmlString = products
-    .map((product: Product): string => ProductsCardComponent(product, true))
+    .map((product: Product): string => ProductsCardComponent(product))
     .join("");
 
   const paginatorHTML: htmlString = PaginatorComponent(page, maxPage);

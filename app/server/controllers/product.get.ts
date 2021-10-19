@@ -9,7 +9,6 @@ module.exports = function productGet(req: any, res: any) {
 
   const config: any = product;
   config.productSpecs = ProductSpecsComponent(product.caracts);
-  config.isFavorite = true;
 
   res.render("product", config);
 };
