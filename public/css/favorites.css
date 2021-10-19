@@ -1,0 +1,14 @@
+.favorites-icon {
+    padding: 5px 10px 0 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: gainsboro;
+    font-size: 2em;
+    text-shadow: 1px 1px black;
+    cursor: pointer;
+}
+
+.favorites-icon.selected {
+    color: gold;
+}
