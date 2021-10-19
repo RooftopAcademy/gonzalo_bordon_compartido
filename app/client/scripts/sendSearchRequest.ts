@@ -6,7 +6,7 @@ export default function sendSearchRequest(
 ): void {
     //if (CURRENT_PAGE !== "products") {
         console.log(input.value)
-        return Router.followWithParams("/products", {
+        return Router.followWithQuery("/products", {
             search: input.value
         })
     //}

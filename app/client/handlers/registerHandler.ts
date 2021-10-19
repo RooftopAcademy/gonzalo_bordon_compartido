@@ -10,11 +10,16 @@ export default async function registerHandler(): Promise<void> {
     new FormData(REGISTER_FORM).entries()
   ) as { [index: string]: string };
 
-  if (password === passwordRepeat) {
+  if (email && password === passwordRepeat) {
     const response = await app.users.registerUser(email, password);
 
-    return alert(response ? response : "Registrado con Éxito");
+    console.log(response)
+    if (response) {
+      return alert(response);
+    }
+
+    return alert("Registrado con Éxito");
   }
 
-  alert("Las contraseñas no coinciden.");
+  return alert("Las contraseñas no coinciden.");
 }

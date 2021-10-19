@@ -13,5 +13,9 @@ export default async function loginHandler(): Promise<void> {
   };
   const response = await app.users.loginUser(email, password);
 
-  return alert(response ? response : "Logueado con Éxito");
+  if (response) {
+    return alert(response);
+  }
+
+  return alert("Logueado con Éxito");
 }

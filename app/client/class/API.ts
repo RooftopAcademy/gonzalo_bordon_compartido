@@ -27,6 +27,27 @@ export default abstract class API {
     return (responseJson as any).message;
   }
 
+  public static async fetchRedirectAPI(
+    url: string,
+    data?: object,
+    method: string = "POST"
+  ): Promise<any | apiError> {
+    const response = await fetch(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      body: JSON.stringify(data),
+    });
+    const responseJson = await response.json();
+
+    if (response.ok) {
+      return Object.keys(responseJson).length === 0 ? API_ERROR : responseJson;
+    }
+    return (responseJson as any).message;
+  }
+
   /**
    *
    * @param apiResponse An API method return

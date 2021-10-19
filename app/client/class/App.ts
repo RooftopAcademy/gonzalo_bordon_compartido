@@ -1,4 +1,5 @@
 //  LISTENERES
+import loginRegisterListener from "../listeners/loginRegisterListener";
 import menuHandlerListener from "../listeners/menuHandlerListener";
 import closeCartListener from "../listeners/closeCartListener";
 import paginatorListener from "../listeners/paginatorListener";
@@ -7,15 +8,17 @@ import shopListener from "../listeners/shopListener";
 
 //  CLASSES
 import Favorites from "./Favorites";
+import Router from "./Router";
 import Users from "./Users";
 import Cart from "./Cart";
 import UI from "./UI";
 
 //  SCRIPTS
 import updateQuantityProducts from "../scripts/updateQuantityProducts";
+import loadUsers from "../scripts/loadUsers";
 import loadTable from "../scripts/loadTable";
 import { CURRENT_PAGE } from "../config";
-import loginRegisterListener from "../listeners/loginRegisterListener";
+import favoritesListener from "../listeners/favoritesListener";
 
 export default class App {
   public ui: UI;
@@ -34,8 +37,8 @@ export default class App {
   constructor(HTML_APP: HTMLElement) {
     this.ui = new UI(HTML_APP);
     this.cart = new Cart();
-    this.favorites = new Favorites();
     this.users = new Users();
+    this.favorites = new Favorites();
   }
 
   /**
@@ -57,14 +60,15 @@ export default class App {
    * Loads all listeners for Products.
    */
   private productsPrepare(): void {
+    this.productPrepare();
     paginatorListener();
-    shopListener(this.cart);
   }
 
   /**
    * Loads all listeners for Product.
    */
   private productPrepare(): void {
+    favoritesListener(this.users, this.favorites);
     shopListener(this.cart);
   }
 
@@ -76,10 +80,17 @@ export default class App {
     loadTable(this.cart);
   }
 
-    /**
+  /**
    * Loads all listeners for Users.
    */
-     private usersPrepare(): void {
-      loginRegisterListener();
+  private async usersPrepare(): Promise<void> {
+    if (this.users.isLogued()) {
+      if (!Router.getParam(1)) {
+        return Router.follow(`/users/${this.users.getUser()}`);
+      }
+      return await loadUsers(this.users, this.favorites);
     }
+    
+    loginRegisterListener();
+  }
 }
