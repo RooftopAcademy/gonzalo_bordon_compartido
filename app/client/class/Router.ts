@@ -1,22 +1,21 @@
+import { htmlFileName } from "../types/search";
+
 export default class Router {
-  public static followWithParams(
-    path: string,
-    params: any
-  ): void {
+  public static follow(path: string): void {
+    window.location.replace(window.location.origin + path);
+  }
+
+  public static followWithQuery(path: string, query: any): void {
     window.location.replace(
-      window.location.origin + path + Router.stringfyParams(params)
+      window.location.origin + path + Router.stringfyQuery(query)
     );
   }
 
-  public static followWithCurrentParams(
-    path: string
-  ): void {
-    window.location.replace(
-      window.location.origin + path + Router.getParams()
-    );
+  public static followWithCurrentQuery(path: string): void {
+    window.location.replace(window.location.origin + path + Router.getQuery());
   }
 
-  public static getParams(): string {
+  public static getQuery(): string {
     return window.location.search;
   }
 
@@ -24,11 +23,19 @@ export default class Router {
     return window.location.origin + path;
   }
 
-  private static stringfyParams(params: any): string {
+  public static getPage(): htmlFileName {
+    return window.location.pathname.split("/")[1] as htmlFileName;
+  }
+
+  public static getParam(nParam: number): string {
+    return window.location.pathname.split("/")[nParam + 1];
+  }
+
+  private static stringfyQuery(query: any): string {
     return (
       "?" +
-      Object.keys(params)
-        .map((key) => `${key}=${params[key]}`)
+      Object.keys(query)
+        .map((key) => `${key}=${query[key]}`)
         .join("&")
     );
   }

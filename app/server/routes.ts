@@ -9,9 +9,11 @@ const usersGet = require("./controllers/users.get");
 const cartGet = require("./controllers/cart.get");
 
 const productsIDsPost = require("./controllers/productsIDs.post");
+const favoritesPost = require("./controllers/favorites.post");
 const productsPost = require("./controllers/products.post");
 const usersPost = require("./controllers/users.post");
 
+const favoritesPut = require("./controllers/favorites.put");
 const usersPut = require("./controllers/users.put");
 
 router.get("/", indexGet);
@@ -21,6 +23,7 @@ router.get("/products", productsGet);
 
 router.get("/product/:id", productGet);
 
+router.get("/users/:userID", usersGet);
 router.get("/users", usersGet);
 
 router.get("/cart", cartGet);
@@ -32,9 +35,12 @@ router.post("/products", productsPost);
 
 router.post("/users", usersPost);
 
+router.post("/favorites/:userID", favoritesPost);
 
 // PUT
 router.put("/users", usersPut);
+
+router.put("/favorites/:userID/:id", favoritesPut);
 
 
 router.use((req: any, res: any) => {
