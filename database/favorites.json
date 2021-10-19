@@ -1,0 +1,7 @@
+[{
+  "id": 1,
+  "favoritesProducts": []
+}, {
+  "id": "2",
+  "favoritesProducts": ["12", "11", "14", "13"]
+}]

@@ -161,6 +161,23 @@ footer {
     font-weight: bold;
 }
 
+.contact-card {
+    margin: 20px;
+    padding: 20px 60px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.input-group {
+    padding: 0px 10px;
+}
+
+
+.input-group input {
+    width: 100%;
+    padding: 5px 10px;
+}
+
 
 /* @media (min-width: 576px) { 
 }

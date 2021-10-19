@@ -1,61 +1,28 @@
 import { favoritesArray } from "../types/favorites";
 import { productID } from "../types/products";
 
-import Storage from "./Storage";
+import Router from "./Router";
+import API from "./API";
 
-import { SS_FAVORITES } from "../config";
+import UsersStorage from "./UsersStorage";
 
-export default class Favorites extends Storage<favoritesArray> {
+export default class Favorites extends UsersStorage {
   constructor() {
-    super(SS_FAVORITES, []);
+    super();
   }
 
-  public addToFavorites(productID: productID): void {
-    const favoritesSet: Set<number> = new Set(this.getStorage()).add(productID);
-    this.updateFavorites(favoritesSet);
-  }
-
-  public removeFromFavorite(productID: number): void {
-    const favoritesSet: Set<number> = new Set(this.getStorage())
-    favoritesSet.delete(productID);
-    this.updateFavorites(favoritesSet);
-  }
-
-  public handleFavorite(productID: number): void {
-    const favoritesSet: Set<number> = new Set(this.getStorage());
-    if (favoritesSet.has(productID)) {
-      favoritesSet.delete(productID);
-      return
-    }
-    favoritesSet.add(productID);
-  }
-
-  /**
-   * @return if the Cart is empty or not.
-   */
-  public isEmpty(): boolean {
-    return this.getStorage().length === 0;
+  public async toggleFavorites(productID: productID): Promise<boolean> {
+    return await API.fetchAPI(this.getFavoritesAPI(`${productID}`), {}, "PUT");
   }
 
   /**
    * @return favorites products.
    */
-  public getFavorites(): favoritesArray {
-    return this.getStorage();
+  public async getFavorites(): Promise<favoritesArray> {
+    return (await API.fetchAPI(this.getFavoritesAPI())).favorites;
   }
 
-  /**
-   * @return favorites products.
-   */
-  public isFavorite(id: number): boolean {
-    return this.getStorage().includes(id);;
-  }
-
-  /**
-   * Update the Favorites Products Storage.
-   */
-  private updateFavorites(favoritesSet: Set<number>): void {
-    const favoritesArray: favoritesArray = [...favoritesSet];
-    this.updateStorage(favoritesArray);
+  private getFavoritesAPI(productID: string = ""): string {
+    return Router.createURL(`/favorites/${this.getUser()}/${productID}`);
   }
 }

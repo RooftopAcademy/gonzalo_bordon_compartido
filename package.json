@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon build/server/app.js"
+    "start": "nodemon build/server/app.js",
+    "runbuild": "tsc -b app/server/ && node build/server/app.js"
   },
   "keywords": [],
   "author": "",

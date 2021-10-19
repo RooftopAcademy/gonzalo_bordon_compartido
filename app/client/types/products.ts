@@ -1,4 +1,4 @@
-type productID = number;
+type productID = string;
 
 export {
     productID

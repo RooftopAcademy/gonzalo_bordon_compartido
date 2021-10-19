@@ -1,15 +1,19 @@
 import Product from "../interfaces/Product";
 
-import API from "./API";
+import DataBase from "./DataBase";
 
-export default class ProductsAPI extends API {
+export default class ProductsAPI extends DataBase {
   private params: any = {};
   private body: any = {};
+  private query: any = {};
+  private products: Product[];
 
   constructor(req: any) {
-    super();
+    super("products");
     this.params = req.params;
     this.body = req.body;
+    this.query = req.query;
+    this.products = this.getTable();
   }
 
   public getProducts(): {
@@ -18,13 +22,19 @@ export default class ProductsAPI extends API {
     page: number;
   } {
     const { page, min, max } = this.params;
-    const { search } = this.body;
-    const products: Product[] = API.getProducts(search, min, max);
+    const { search } = this.query;
+    const SEARCH_REGEX: RegExp = new RegExp(search);
+
+    const products: Product[] = this.products.filter(
+      (product: Product) =>
+        SEARCH_REGEX.test(product.title.toLowerCase()) &&
+        this.inRange(product.price, min, max)
+    );
 
     const maxPage: number = Math.ceil(products.length / 10);
     const currentPage: number = +page || 1;
     const firstProductIndex: number = (currentPage - 1) * 10;
-  
+
     return {
       products: products.slice(firstProductIndex, firstProductIndex + 10),
       maxPage,
@@ -33,6 +43,13 @@ export default class ProductsAPI extends API {
   }
 
   public getProductsById(): Product[] {
-    return API.getProductsByIds(this.body.IDList);
+    return this.products.filter((product: Product) =>
+      this.body.IDList.includes(String(product.id))
+    );
+  }
+
+  public getProduct(): Product {
+    const { id } = this.params;
+    return this.products.find((product: any) => product.id === +id);
   }
 }

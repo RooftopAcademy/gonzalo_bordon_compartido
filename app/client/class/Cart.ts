@@ -1,4 +1,5 @@
 import CartStructure from "../interfaces/CartStructure";
+import CartProduct from "../interfaces/CartProduct";
 
 import { cartProductsList } from "../types/cart";
 
@@ -6,7 +7,6 @@ import Storage from "./Storage";
 
 import { SS_CART } from "../config";
 import cartErrorHandler from "../errors/cartErrorHandler";
-import CartProduct from "../interfaces/CartProduct";
 
 export default class Cart extends Storage<CartStructure> {
   private products: any = [];

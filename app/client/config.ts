@@ -1,13 +1,15 @@
 import { apiError, apiURL } from "./types/api";
 import { htmlFileName } from "./types/search";
 
+import Router from "./class/Router";
+
 //  HTML
 const SEARCH_INPUT_S: HTMLElement = document.getElementById("search-input-s");
 const SEARCH_INPUT: HTMLElement = document.getElementById("search-input");
 const QUANTITY_PRODUCTS_INDICATOR: HTMLElement = document.getElementById("quantityProducts")
 
 //  GENERAL
-const CURRENT_PAGE: htmlFileName = window.location.pathname.split("/")[1] as htmlFileName;
+const CURRENT_PAGE: htmlFileName = Router.getPage();
 const PAGES: htmlFileName[] = ["index", "cart", "products", "product", "error"];
 const DEFAULT_HTML_FILE: htmlFileName = "index";
 const SEARCH_PAIR_INPUTS: {
