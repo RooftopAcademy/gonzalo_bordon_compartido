@@ -28,7 +28,7 @@ export default class Router {
     return (
       "?" +
       Object.keys(params)
-        .map((key) => `${key}=params[key]`)
+        .map((key) => `${key}=${params[key]}`)
         .join("&")
     );
   }

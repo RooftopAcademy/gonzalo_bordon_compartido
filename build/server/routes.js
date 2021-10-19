@@ -1,34 +1,29 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var ProductsAPI_1 = __importDefault(require("./classes/ProductsAPI"));
 var Router = require("express").Router;
 var router = Router();
 // CONTROLLERS
-var productsController = require("./routes/products.controller");
-var productController = require("./routes/product.controller");
-var indexController = require("./routes/index.controller");
-var cartController = require("./routes/cart.controller");
-router.get("/", indexController);
-router.get("/products/:page", productsController);
-router.get("/products", productsController);
-router.get("/product/:id", productController);
-router.get("/cart", cartController);
+var productsGet = require("./controllers/products.get");
+var productGet = require("./controllers/product.get");
+var indexGet = require("./controllers/index.get");
+var usersGet = require("./controllers/users.get");
+var cartGet = require("./controllers/cart.get");
+var productsIDsPost = require("./controllers/productsIDs.post");
+var productsPost = require("./controllers/products.post");
+var usersPost = require("./controllers/users.post");
+var usersPut = require("./controllers/users.put");
+router.get("/", indexGet);
+router.get("/products/:page", productsGet);
+router.get("/products", productsGet);
+router.get("/product/:id", productGet);
+router.get("/users", usersGet);
+router.get("/cart", cartGet);
 // POST
-router.post("/products/ids", function (req, res) {
-    var response = new ProductsAPI_1.default(req).getProductsById();
-    res.json(response);
-});
-router.post("/products/:page", function (req, res) {
-    var response = new ProductsAPI_1.default(req).getProducts();
-    res.json(response);
-});
-router.post("/products", function (req, res) {
-    var response = new ProductsAPI_1.default(req).getProducts();
-    res.json(response);
-});
+router.post("/products/ids", productsIDsPost);
+router.post("/products/:page", productsPost);
+router.post("/products", productsPost);
+router.post("/users", usersPost);
+// PUT
+router.put("/users", usersPut);
 router.use(function (req, res) {
     res.status(404).render("404");
 });

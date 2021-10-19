@@ -9,17 +9,22 @@ import apiErrorHandler from "../errors/apiErrorHandler";
 export default abstract class API {
   public static async fetchAPI(
     url: string,
-    data?: object
-  ): Promise<Product[] | apiError | Product> {
-    return await fetch(url, {
-      method: "POST",
+    data?: object,
+    method: string = "POST"
+  ): Promise<any | apiError> {
+    const response = await fetch(url, {
+      method,
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
-    })
-      .then((e) => e.json())
-      .then((res) => (Object.keys(res).length === 0 ? API_ERROR : res));
+      body: JSON.stringify(data),
+    });
+    const responseJson = await response.json();
+
+    if (response.ok) {
+      return Object.keys(responseJson).length === 0 ? API_ERROR : responseJson;
+    }
+    return (responseJson as any).message;
   }
 
   /**
@@ -27,7 +32,7 @@ export default abstract class API {
    * @param apiResponse An API method return
    * @returns if the api is or not an Error
    */
-  public static isApiError(apiResponse: Product[] | apiError | Product): boolean {
+  public static isApiError(apiResponse: any | apiError): boolean {
     if (typeof apiResponse === "string") {
       apiErrorHandler("Ha ocurrido un error.");
       return true;

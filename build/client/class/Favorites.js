@@ -14,6 +14,31 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -26,20 +51,27 @@ var Favorites = /** @class */ (function (_super) {
         return _super.call(this, config_1.SS_FAVORITES, []) || this;
     }
     Favorites.prototype.addToFavorites = function (productID) {
-        var favoritesArray = this.getStorage();
-        favoritesArray.push(productID);
-        this.updateStorage(favoritesArray);
+        var favoritesSet = new Set(this.getStorage()).add(productID);
+        this.updateFavorites(favoritesSet);
     };
-    Favorites.prototype.removeProduct = function (productID) {
-        var favoritesArray = this.getStorage();
-        this.updateStorage(favoritesArray.splice(favoritesArray.indexOf(productID), 1));
+    Favorites.prototype.removeFromFavorite = function (productID) {
+        var favoritesSet = new Set(this.getStorage());
+        favoritesSet.delete(productID);
+        this.updateFavorites(favoritesSet);
+    };
+    Favorites.prototype.handleFavorite = function (productID) {
+        var favoritesSet = new Set(this.getStorage());
+        if (favoritesSet.has(productID)) {
+            favoritesSet.delete(productID);
+            return;
+        }
+        favoritesSet.add(productID);
     };
     /**
      * @return if the Cart is empty or not.
      */
     Favorites.prototype.isEmpty = function () {
-        var cartResponse = this.getStorage();
-        return cartResponse.length === 0;
+        return this.getStorage().length === 0;
     };
     /**
      * @return favorites products.
@@ -53,6 +85,13 @@ var Favorites = /** @class */ (function (_super) {
     Favorites.prototype.isFavorite = function (id) {
         return this.getStorage().includes(id);
         ;
+    };
+    /**
+     * Update the Favorites Products Storage.
+     */
+    Favorites.prototype.updateFavorites = function (favoritesSet) {
+        var favoritesArray = __spreadArray([], __read(favoritesSet), false);
+        this.updateStorage(favoritesArray);
     };
     return Favorites;
 }(Storage_1.default));

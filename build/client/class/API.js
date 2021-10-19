@@ -44,20 +44,28 @@ var apiErrorHandler_1 = __importDefault(require("../errors/apiErrorHandler"));
 var API = /** @class */ (function () {
     function API() {
     }
-    API.fetchAPI = function (url, data) {
+    API.fetchAPI = function (url, data, method) {
+        if (method === void 0) { method = "POST"; }
         return __awaiter(this, void 0, void 0, function () {
+            var response, responseJson;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, fetch(url, {
-                            method: "POST",
+                            method: method,
                             headers: {
                                 "Content-Type": "application/json",
                             },
-                            body: JSON.stringify(data)
-                        })
-                            .then(function (e) { return e.json(); })
-                            .then(function (res) { return (Object.keys(res).length === 0 ? config_1.API_ERROR : res); })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                            body: JSON.stringify(data),
+                        })];
+                    case 1:
+                        response = _a.sent();
+                        return [4 /*yield*/, response.json()];
+                    case 2:
+                        responseJson = _a.sent();
+                        if (response.ok) {
+                            return [2 /*return*/, Object.keys(responseJson).length === 0 ? config_1.API_ERROR : responseJson];
+                        }
+                        return [2 /*return*/, responseJson.message];
                 }
             });
         });

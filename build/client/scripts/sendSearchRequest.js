@@ -7,8 +7,9 @@ var Router_1 = __importDefault(require("../class/Router"));
 //import { CURRENT_PAGE } from "../config";
 function sendSearchRequest(input) {
     //if (CURRENT_PAGE !== "products") {
+    console.log(input.value);
     return Router_1.default.followWithParams("/products", {
-        "search": input.value
+        search: input.value
     });
     //}
 }

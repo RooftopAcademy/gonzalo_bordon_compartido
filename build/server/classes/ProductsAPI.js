@@ -18,20 +18,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var API_1 = __importDefault(require("./API"));
+var DataBase_1 = __importDefault(require("./DataBase"));
 var ProductsAPI = /** @class */ (function (_super) {
     __extends(ProductsAPI, _super);
     function ProductsAPI(req) {
-        var _this = _super.call(this) || this;
+        var _this = _super.call(this, "products") || this;
         _this.params = {};
         _this.body = {};
+        _this.query = {};
         _this.params = req.params;
         _this.body = req.body;
+        _this.query = req.query;
+        _this.products = _this.getTable();
         return _this;
     }
     ProductsAPI.prototype.getProducts = function () {
-        var _a = this.params, page = _a.page, search = _a.search, min = _a.min, max = _a.max;
-        var products = API_1.default.getProducts(search, min, max);
+        var _this = this;
+        var _a = this.params, page = _a.page, min = _a.min, max = _a.max;
+        var search = this.query.search;
+        var SEARCH_REGEX = new RegExp(search);
+        console.log(this.body, this.params, this.query);
+        var products = this.products.filter(function (product) {
+            return SEARCH_REGEX.test(product.title.toLowerCase()) &&
+                _this.inRange(product.price, min, max);
+        });
         var maxPage = Math.ceil(products.length / 10);
         var currentPage = +page || 1;
         var firstProductIndex = (currentPage - 1) * 10;
@@ -42,8 +52,15 @@ var ProductsAPI = /** @class */ (function (_super) {
         };
     };
     ProductsAPI.prototype.getProductsById = function () {
-        return API_1.default.getProductsByIds(this.body.IDList);
+        var _this = this;
+        return this.products.filter(function (product) {
+            return _this.body.IDList.includes(String(product.id));
+        });
+    };
+    ProductsAPI.prototype.getProduct = function () {
+        var id = this.params.id;
+        return this.products.find(function (product) { return product.id === +id; });
     };
     return ProductsAPI;
-}(API_1.default));
+}(DataBase_1.default));
 exports.default = ProductsAPI;
