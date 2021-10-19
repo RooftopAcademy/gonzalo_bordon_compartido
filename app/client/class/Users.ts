@@ -1,16 +1,10 @@
-import User from "../interfaces/User";
-
 import API from "./API";
 import Router from "./Router";
-import Storage from "./Storage";
+import UsersStorage from "./UsersStorage";
 
-export default class Users extends Storage<User> {
+export default class Users extends UsersStorage {
   constructor() {
-    super("user", {
-      id: null,
-      email: "",
-      password: "",
-    });
+    super();
   }
 
   public async loginUser(email: string, password: string): Promise<void | string> {
@@ -37,7 +31,15 @@ export default class Users extends Storage<User> {
     })
   }
 
-  public isLogued(): boolean {
-    return !!this.getStorage().id;
+  public getEmail() {
+    return super.getEmail();
+  }
+
+  public getUser() {
+    return super.getUser();
+  }
+
+  public isLogued() {
+    return super.isLogued();
   }
 }
