@@ -5,7 +5,7 @@ type searchURLSetter = {
     search?: string
 }
 type searchParam = "htmlFileName" | "page" | "cod" | "search";
-type htmlFileName = "index" | "cart" | "product" | "products" | "error";
+type htmlFileName = "index" | "cart" | "product" | "products" | "error" | "users";
 
 export {
     searchURLSetter,
