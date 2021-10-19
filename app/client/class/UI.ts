@@ -31,10 +31,8 @@ export default class UI {
     maxPage: number
   ): void {
     const innerHTML: string = products
-      .map((product: Product): string =>
-        ProductsCardComponent(product, favorites.isFavorite(product.id))
-      )
+      .map((product: Product): string => ProductsCardComponent(product))
       .join("");
-    PaginatorComponenet(page || 1, maxPage)
+    PaginatorComponenet(page || 1, maxPage);
   }
 }

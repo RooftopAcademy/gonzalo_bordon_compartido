@@ -14,7 +14,7 @@ export default function paginatorListener(): void {
       (e: Event): void => {
         const page: string = (e.target as HTMLElement).dataset.page;
 
-        Router.followWithCurrentParams(`/products/${page}`);
+        Router.followWithCurrentQuery(`/products/${page}`);
       }
     );
   });
