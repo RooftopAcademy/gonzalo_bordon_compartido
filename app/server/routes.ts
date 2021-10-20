@@ -8,6 +8,7 @@ const indexGet = require("./controllers/index.get");
 const usersGet = require("./controllers/users.get");
 const cartGet = require("./controllers/cart.get");
 
+const favoritesIDsPost = require("./controllers/favoritesIDs.post");
 const productsIDsPost = require("./controllers/productsIDs.post");
 const favoritesPost = require("./controllers/favorites.post");
 const productsPost = require("./controllers/products.post");
@@ -35,6 +36,7 @@ router.post("/products", productsPost);
 
 router.post("/users", usersPost);
 
+router.post("/favorites/:userID/id", favoritesIDsPost);
 router.post("/favorites/:userID", favoritesPost);
 
 // PUT
