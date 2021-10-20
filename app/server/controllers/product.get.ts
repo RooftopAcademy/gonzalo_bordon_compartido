@@ -8,7 +8,16 @@ module.exports = function productGet(req: any, res: any) {
   const product: Product = new ProductsAPI(req).getProduct();
 
   const config: any = product;
-  config.productSpecs = ProductSpecsComponent(product.caracts);
+  config.productSpecs = !product
+    ? {
+        image: "",
+        id: "",
+        title: "Este producto no existe",
+        body: "",
+        price: "",
+        productSpecs: "",
+      }
+    : ProductSpecsComponent(product.caracts);
 
   res.render("product", config);
 };
