@@ -1,0 +1,42 @@
+[
+  {
+    "category": "Primeros auxilios",
+    "id": 1
+  },
+  {
+    "category": "Diabetes",
+    "id": 2
+  },
+  {
+    "category": "Óptica",
+    "id": 3
+  },
+  {
+    "category": "Pediculosis",
+    "id": 4
+  },
+  {
+    "category": "Pédicos",
+    "id": 5
+  },
+  {
+    "category": "Suplementos Dietarios",
+    "id": 6
+  },
+  {
+    "category": "Suplementos Nutricionales",
+    "id": 7
+  },
+  {
+    "category": "Suplementos Deportivo",
+    "id": 8
+  },
+  {
+    "category": "Protección y Recuperación",
+    "id": 9 
+  },
+  {
+    "category": "Fitness",
+    "id": 10
+  }
+]
