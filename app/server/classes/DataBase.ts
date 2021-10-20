@@ -2,11 +2,11 @@ import Filter from "./Filter";
 
 const fs = require("fs");
 
-const { DATABASE_DIR } = require("../config");
+import { DATABASE_DIR, TABLES } from "../config";
 
 export default class DataBase extends Filter {
   private table: string;
-  private readonly tableNames = ["config", "products", "users", "favorites"];
+  private readonly tableNames = TABLES;
 
   constructor(tableName: string) {
     super();

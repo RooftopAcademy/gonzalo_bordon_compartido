@@ -7,6 +7,7 @@ import ProductsAPI from "../classes/ProductsAPI";
 import ProductsCardComponent from "../components/ProductsCardComponent";
 import PaginatorComponent from "../components/PaginatorComponent";
 import ProductsEmptyComponent from "../components/ProductsEmptyComponent";
+import FilterCategoriesComponent from "../components/FilterCategoriesComponent";
 
 module.exports = function productsGet(req: any, res: any) {
   const { products, page, maxPage } = new ProductsAPI(req).getProducts();
@@ -19,9 +20,13 @@ module.exports = function productsGet(req: any, res: any) {
           .join("");
 
   const paginatorHTML: htmlString = PaginatorComponent(page, maxPage);
+  const categoriesHTML: htmlString = FilterCategoriesComponent();
 
+  console.log(categoriesHTML)
+  
   res.render("products", {
-    productsHTML: productsHTML,
-    paginatorHTML: paginatorHTML,
+    productsHTML,
+    paginatorHTML,
+    categoriesHTML
   });
 };

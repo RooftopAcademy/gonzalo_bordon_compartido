@@ -1,4 +1,5 @@
 import Product from "../interfaces/Product";
+import Categories from "./CategoriesAPI";
 
 import DataBase from "./DataBase";
 
@@ -21,14 +22,22 @@ export default class ProductsAPI extends DataBase {
     maxPage: number;
     page: number;
   } {
-    const { page, min, max } = this.params;
-    const { search } = this.query;
+    const categoriesObject: Categories = new Categories()
+
+    const { page } = this.params;
+    const { search, min, max, stock, categories } = this.query;
+
     const SEARCH_REGEX: RegExp = new RegExp(search);
+    
+    categoriesObject.setCategoriesByID(categories || []);
+    const categoriesList: string[] = categoriesObject.getCategoriesList();
 
     const products: Product[] = this.products.filter(
       (product: Product) =>
         SEARCH_REGEX.test(product.title.toLowerCase()) &&
-        this.inRange(product.price, min, max)
+        this.inRange(product.price, min, max) && 
+        this.inStock(product.stock, stock) && 
+        this.inCategories(product.category, categoriesList)
     );
 
     const maxPage: number = Math.ceil(products.length / 10);
