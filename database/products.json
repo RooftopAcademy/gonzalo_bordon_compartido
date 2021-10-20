@@ -42,7 +42,7 @@
     "Caraterística 4": "Especificación 4",
     "Caraterística 5": "Especificación 5"
   },
-  "stock": 16
+  "stock": 0
 }, {
   "category": "Primeros auxilios",
   "id": 4,
@@ -162,7 +162,7 @@
     "Caraterística 4": "Especificación 4",
     "Caraterística 5": "Especificación 5"
   },
-  "stock": 16
+  "stock": 0
 }, {
   "category": "Óptica",
   "id": 12,
@@ -312,7 +312,7 @@
     "Caraterística 4": "Especificación 4",
     "Caraterística 5": "Especificación 5"
   },
-  "stock": 16
+  "stock": 0
 }, {
   "category": "Protección y Recuperación",
   "id": 22,
@@ -342,7 +342,7 @@
     "Caraterística 4": "Especificación 4",
     "Caraterística 5": "Especificación 5"
   },
-  "stock": 16
+  "stock": 0
 }, {
   "category": "Pédicos",
   "id": 24,
@@ -597,7 +597,7 @@
     "Caraterística 4": "Especificación 4",
     "Caraterística 5": "Especificación 5"
   },
-  "stock": 16
+  "stock": 0
 }, {
   "category": "Diabetes",
   "id": 41,
@@ -657,7 +657,7 @@
     "Caraterística 4": "Especificación 4",
     "Caraterística 5": "Especificación 5"
   },
-  "stock": 16
+  "stock": 0
 }, {
   "category": "Diabetes",
   "id": 45,
@@ -777,7 +777,7 @@
     "Caraterística 4": "Especificación 4",
     "Caraterística 5": "Especificación 5"
   },
-  "stock": 16
+  "stock": 0
 }, {
   "category": "Protección y Recuperación",
   "id": 53,
@@ -792,7 +792,7 @@
     "Caraterística 4": "Especificación 4",
     "Caraterística 5": "Especificación 5"
   },
-  "stock": 16
+  "stock": 0
 }, {
   "category": "Diabetes",
   "id": 54,
@@ -1002,7 +1002,7 @@
     "Caraterística 4": "Especificación 4",
     "Caraterística 5": "Especificación 5"
   },
-  "stock": 16
+  "stock": 0
 }, {
   "category": "Diabetes",
   "id": 68,
@@ -1272,7 +1272,7 @@
     "Caraterística 4": "Especificación 4",
     "Caraterística 5": "Especificación 5"
   },
-  "stock": 16
+  "stock": 0
 }, {
   "category": "Diabetes",
   "id": 86,
@@ -1407,7 +1407,7 @@
     "Caraterística 4": "Especificación 4",
     "Caraterística 5": "Especificación 5"
   },
-  "stock": 16
+  "stock": 0
 }, {
   "category": "Suplementos Dietarios",
   "id": 95,
