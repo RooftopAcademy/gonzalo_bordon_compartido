@@ -74,10 +74,62 @@ section h1 {
     background-color: green;
 }
 
+.shop-container {
+    display: flex;
+}
+
+.filter {
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 40vw;
+}
+
+.filter-header {
+    color: rgb(92,168,103);
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.filter-param {
+    color: rgb(92,168,103);
+    font-size: 1.2em;
+}
+
+.filter-param.send {
+    display: flex;
+    justify-content: center;
+}
+
+.filter-categories {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-category {
+    margin-top: 3px;
+    color: black;
+}
+
+.filter-send {
+    margin-top: 10px;
+    padding: 5px 30px;
+    font-size: 0.9em;
+}
+
 @media (max-width: 920px) {
     .product-card {
       flex: 1 21%;
       display: flex;
+    }
+
+    .shop-container {
+        flex-direction: column;
+    }
+
+    .filter {
+        max-width: unset;
     }
 }
 
