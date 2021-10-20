@@ -54,11 +54,6 @@ export default abstract class API {
    * @returns if the api is or not an Error
    */
   public static isApiError(apiResponse: any | apiError): boolean {
-    if (typeof apiResponse === "string") {
-      apiErrorHandler("Ha ocurrido un error.");
-      return true;
-    }
-
-    return false;
+    return (typeof apiResponse === "string")
   }
 }

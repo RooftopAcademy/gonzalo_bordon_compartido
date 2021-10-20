@@ -1,7 +1,26 @@
 <%- include('partials/header') %>
 
 <div class="users-container">
-  <h1>Usuario: <span id="user-email"></span></h1>
+  <h1 style="padding: 0;margin: 0;">Usuario: <span id="user-email"></span></h1>
+  <div style="display: flex;">
+    <button id="user-logout">Cerrar Sesión</button>
+  </div>
+</div>
+<div class="users-container" style="display: block;margin-inline: 50px;">
+  <h1>Favoritos</h1>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>A</th>
+          <th>Título</th>
+          <th>Categoría</th>
+          <th>Precio</th>
+        </tr>
+      </thead>
+      <tbody id="favorites-container"></tbody>
+    </table>
+  </div>
 </div>
 
 <%- include('partials/footer') %>

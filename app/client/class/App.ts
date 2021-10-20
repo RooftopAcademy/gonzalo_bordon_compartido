@@ -1,7 +1,9 @@
 //  LISTENERES
 import loginRegisterListener from "../listeners/loginRegisterListener";
+import usersLogoutListener from "../listeners/usersLogoutListener";
 import menuHandlerListener from "../listeners/menuHandlerListener";
 import closeCartListener from "../listeners/closeCartListener";
+import favoritesAsyncListener from "../listeners/favoritesAsyncListener";
 import paginatorListener from "../listeners/paginatorListener";
 import searchsListener from "../listeners/searchsListener";
 import shopListener from "../listeners/shopListener";
@@ -11,17 +13,15 @@ import Favorites from "./Favorites";
 import Router from "./Router";
 import Users from "./Users";
 import Cart from "./Cart";
-import UI from "./UI";
 
 //  SCRIPTS
 import updateQuantityProducts from "../scripts/updateQuantityProducts";
 import loadUsers from "../scripts/loadUsers";
 import loadTable from "../scripts/loadTable";
 import { CURRENT_PAGE } from "../config";
-import favoritesListener from "../listeners/favoritesListener";
+import favoritesSyncListener from "../listeners/favoritesSyncListener";
 
 export default class App {
-  public ui: UI;
   public cart: Cart;
   public users: Users;
   public favorites: Favorites;
@@ -31,11 +31,10 @@ export default class App {
     products: "productsPrepare",
     product: "productPrepare",
     cart: "cartPrepare",
-    users: "usersPrepare"
+    users: "usersPrepare",
   };
 
   constructor(HTML_APP: HTMLElement) {
-    this.ui = new UI(HTML_APP);
     this.cart = new Cart();
     this.users = new Users();
     this.favorites = new Favorites();
@@ -68,7 +67,7 @@ export default class App {
    * Loads all listeners for Product.
    */
   private productPrepare(): void {
-    favoritesListener(this.users, this.favorites);
+    favoritesAsyncListener(this.users, this.favorites);
     shopListener(this.cart);
   }
 
@@ -88,9 +87,12 @@ export default class App {
       if (!Router.getParam(1)) {
         return Router.follow(`/users/${this.users.getUser()}`);
       }
-      return await loadUsers(this.users, this.favorites);
+      await loadUsers(this.users, this.favorites);
+      favoritesSyncListener(this.favorites);
+      usersLogoutListener(this.users);
+      return;
     }
-    
+
     loginRegisterListener();
   }
 }
