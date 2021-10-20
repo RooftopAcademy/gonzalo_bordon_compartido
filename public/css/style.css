@@ -178,6 +178,16 @@ footer {
     padding: 5px 10px;
 }
 
+.stockButton {
+    display: block;
+    width: 200px;
+    padding: 10px;
+    background-color: black;
+    text-align: center;
+    color: white;
+    cursor: initial;
+}
+
 
 /* @media (min-width: 576px) { 
 }
