@@ -1,3 +1,5 @@
+import Router from "../class/Router";
+
 import app from "../main";
 
 //  HTML
@@ -13,12 +15,11 @@ export default async function registerHandler(): Promise<void> {
   if (email && password === passwordRepeat) {
     const response = await app.users.registerUser(email, password);
 
-    console.log(response)
     if (response) {
       return alert(response);
     }
 
-    return alert("Registrado con Éxito");
+    return Router.follow(`/users/${app.users.getUser()}`);
   }
 
   return alert("Las contraseñas no coinciden.");

@@ -1,3 +1,5 @@
+import Router from "../class/Router";
+
 import app from "../main";
 
 //  HTML
@@ -14,8 +16,9 @@ export default async function loginHandler(): Promise<void> {
   const response = await app.users.loginUser(email, password);
 
   if (response) {
-    return alert(response);
+    alert(response);
+    return;
   }
 
-  return alert("Logueado con Éxito");
+  return Router.follow(`/users/${app.users.getUser()}`);
 }

@@ -10,7 +10,7 @@ export default class Users extends UsersStorage {
   public async loginUser(email: string, password: string): Promise<void | string> {
     const response = await API.fetchAPI(Router.createURL("/users"), { email, password });
     if (API.isApiError(response)) {
-      return response.message
+      return "Credenciales Inválidas";
     }
     this.updateStorage({
       id: response.id,
@@ -22,13 +22,21 @@ export default class Users extends UsersStorage {
   public async registerUser(email: string, password: string): Promise<void | string> {
     const response = await API.fetchAPI(Router.createURL("/users"), { email, password }, "PUT");
     if (API.isApiError(response)) {
-      return response.message
+      return "El usuario ya existe."
     }
     this.updateStorage({
       id: response.id,
       email,
       password
     })
+  }
+
+  public logoutUser(): void {
+    this.updateStorage({
+      id: null,
+      email: "",
+      password: "",
+    });
   }
 
   public getEmail() {
