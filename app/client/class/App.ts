@@ -1,9 +1,11 @@
 //  LISTENERES
+import favoritesAsyncListener from "../listeners/favoritesAsyncListener";
 import loginRegisterListener from "../listeners/loginRegisterListener";
+import favoritesSyncListener from "../listeners/favoritesSyncListener";
 import usersLogoutListener from "../listeners/usersLogoutListener";
 import menuHandlerListener from "../listeners/menuHandlerListener";
+import filterSendListener from "../listeners/filterSendListener";
 import closeCartListener from "../listeners/closeCartListener";
-import favoritesAsyncListener from "../listeners/favoritesAsyncListener";
 import paginatorListener from "../listeners/paginatorListener";
 import searchsListener from "../listeners/searchsListener";
 import shopListener from "../listeners/shopListener";
@@ -19,7 +21,6 @@ import updateQuantityProducts from "../scripts/updateQuantityProducts";
 import loadUsers from "../scripts/loadUsers";
 import loadTable from "../scripts/loadTable";
 import { CURRENT_PAGE } from "../config";
-import favoritesSyncListener from "../listeners/favoritesSyncListener";
 
 export default class App {
   public cart: Cart;
@@ -60,6 +61,7 @@ export default class App {
    */
   private productsPrepare(): void {
     this.productPrepare();
+    filterSendListener();
     paginatorListener();
   }
 
