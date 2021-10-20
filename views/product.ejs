@@ -18,7 +18,11 @@
     <div class="container-productSpecs">
       <%- productSpecs %>
     </div>
-    <a class="shopButton" data-id="<%= id %>">Comprar</a>
+      <% if(stock !== 0){ %>
+        <a class="shopButton" data-id="<%= id %>">Comprar</a>
+      <% } else{ %>  
+        <a class="stockButton shopButton">Out of Stock</a>
+      <% } %>
   </div>
 </div>
 
