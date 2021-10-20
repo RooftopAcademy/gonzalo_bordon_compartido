@@ -16,6 +16,7 @@ module.exports = function productGet(req: any, res: any) {
         body: "",
         price: "",
         productSpecs: "",
+        stock: 0
       }
     : ProductSpecsComponent(product.caracts);
 
