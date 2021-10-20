@@ -1,7 +1,1 @@
-[{
-  "id": 1,
-  "favoritesProducts": []
-}, {
-  "id": "2",
-  "favoritesProducts": ["12", "11", "14", "13"]
-}]
+[{"id":1,"favoritesProducts":[]},{"id":"2","favoritesProducts":["14","11","12","1","4","3","5"]}]
