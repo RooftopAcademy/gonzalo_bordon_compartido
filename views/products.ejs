@@ -1,10 +1,37 @@
 <%- include('partials/header') %>
 
 <h1 class="products-header">Productos</h1>
-<div class="products" id="products">
-  <%- productsHTML %>
-  <div class="paginator">
-    <%- paginatorHTML %>
+<div class="shop-container">
+  <div class="filter">
+    <div class="filter-header">Filtros</div>
+    <hr>
+    <div>
+      <div class="filter-param">Categorías:</div>
+      <div class="filter-categories" id="filter-categories">
+        <%- categoriesHTML %>
+      </div>
+    </div>
+    <hr>
+    <div>
+      <div class="filter-param">Precio:</div>
+      <div style="display: flex;justify-content: space-evenly;padding-top: 10px;">
+        <input style="width: 35%;" type="text" placeholder="min" name="min" id="filter-min">
+        <input style="width: 35%;" type="text" placeholder="max" name="max" id="filter-max">
+      </div>
+    </div>
+    <hr>
+    <div class="filter-param">
+      <input type="checkbox" name="stock" id="filter-stock">Stock</input>
+    </div>
+    <div class="filter-param send">
+      <button class="filter-send" id="filter-send">Enviar</button>
+    </div>
+  </div>
+  <div class="products" id="products">
+    <%- productsHTML %>
+    <div class="paginator">
+      <%- paginatorHTML %>
+    </div>
   </div>
 </div>
 
